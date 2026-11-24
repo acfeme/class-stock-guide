@@ -9,379 +9,332 @@
 <meta name="description" content="중학교 2학년 모의 주식 투자 수업 사이트 안내">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&family=Manrope:wght@600;700;800&display=swap">
 <style>
-/* Layout: 교실 거래소 안내서 — 맨 위 시세 띠, 왼쪽 헤드라인 + 오른쪽 살아 있는 전광판, 아래로 수업 순서대로 내려가는 장(章) */
+/* Layout: 밝은 교실 거래소 — 흰 바탕에 여섯 회사 색을 파스텔로 깔고, 그림과 숫자가 말하게. 글은 한 줄씩만. */
 :root {
-  --paper: #eef1f8;
+  --paper: #f6f8ff;
   --surface: #ffffff;
-  --surface-2: #f6f8fc;
-  --ink: #131a2e;
-  --muted: #586179;
-  --line: #d8deeb;
-  --accent: #1f3a8a;
-  --accent-soft: #e2e8f8;
-  --up: #d92b2b;
-  --down: #1767b8;
-  --up-soft: #fde8e8;
-  --down-soft: #e3effb;
-  --gold: #f0b400;
-  --gold-soft: #fff4cc;
+  --soft: #f0f4ff;
+  --ink: #1a2140;
+  --muted: #6b7394;
+  --line: #e3e8f6;
+  --accent: #2f6bff;
+  --accent-2: #7c5cff;
+  --accent-soft: #e8efff;
+  --coral: #ff6b4a;
+  --sun: #ffc83d;
+  --sun-soft: #fff6d9;
+  --mint: #22c3a6;
+  --mint-soft: #e2f8f3;
+  --up: #f03e3e;
+  --down: #2f6bff;
   --on-accent: #ffffff;
-  /* 전광판은 TV 화면이라 두 테마 모두 어둡게 */
-  --board-bg: #0a0f1f;
-  --board-panel: #121a30;
-  --board-line: #222c48;
-  --board-fg: #edf0f8;
-  --board-dim: #8b94ad;
-  --board-up: #ff5c5c;
-  --board-down: #4ea5ff;
-  --board-flash: #ffd43b;
-  --c-nyam: #e8590c; --c-bolt: #f0b400; --c-pixel: #7048e8; --c-green: #2f9e44; --c-sky: #1c7ed6; --c-tunt: #d6336c;
-  --f-display: 'Black Han Sans', 'IBM Plex Sans KR', 'Malgun Gothic', sans-serif;
-  --f-body: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
-  --f-num: 'IBM Plex Mono', ui-monospace, 'Consolas', monospace;
-  --radius: 14px;
-  --shadow: 0 1px 2px rgba(19, 26, 46, .06), 0 8px 24px rgba(19, 26, 46, .07);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0c1120; --surface: #141b2f; --surface-2: #10172a; --ink: #e8ebf4; --muted: #9ca5bb; --line: #26304a;
-    --accent: #93a9ff; --accent-soft: #1d2747; --up: #ff6b6b; --down: #5cabff; --up-soft: #3a1a20; --down-soft: #142a44;
-    --gold: #ffcf3f; --gold-soft: #3a3214; --on-accent: #0c1120; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #0c1120; --surface: #141b2f; --surface-2: #10172a; --ink: #e8ebf4; --muted: #9ca5bb; --line: #26304a;
-  --accent: #93a9ff; --accent-soft: #1d2747; --up: #ff6b6b; --down: #5cabff; --up-soft: #3a1a20; --down-soft: #142a44;
-  --gold: #ffcf3f; --gold-soft: #3a3214; --on-accent: #0c1120; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
-  color-scheme: dark;
+  --c-nyam: #ff7a2f; --c-bolt: #f5b800; --c-pixel: #7c5cff; --c-green: #22b35e; --c-sky: #1c9bf0; --c-tunt: #f0457f;
+  --f-display: 'Gothic A1', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --f-body: 'Gothic A1', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  --f-num: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  --radius: 20px;
+  --shadow: 0 2px 4px rgba(47, 74, 160, .04), 0 12px 32px rgba(47, 74, 160, .08);
+  --shadow-lg: 0 4px 10px rgba(47, 74, 160, .05), 0 30px 60px -12px rgba(47, 74, 160, .18);
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.65; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.6; -webkit-text-size-adjust: 100%; }
 h1, h2, h3, h4, p, ul, ol { margin: 0; }
 a { color: inherit; }
-:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 6px; }
-.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 .up { color: var(--up); } .down { color: var(--down); }
-.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 
 /* ───── 시세 띠 ───── */
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--board-bg); }
-.tape { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--board-bg); color: var(--board-fg); border-bottom: 1px solid var(--board-line); overflow: hidden; }
-.tape-inner { display: flex; align-items: center; height: 40px; }
-.tape-brand { flex: none; display: flex; align-items: center; gap: 8px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 14px; font-family: var(--f-display); font-size: 17px; letter-spacing: .01em; background: var(--board-bg); position: relative; z-index: 2; box-shadow: 12px 0 14px var(--board-bg); text-decoration: none; }
-.tape-brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--board-up); box-shadow: 0 0 0 0 var(--board-up); animation: live 1.6s infinite; }
-@keyframes live { 0% { box-shadow: 0 0 0 0 rgba(255,92,92,.6); } 70% { box-shadow: 0 0 0 8px rgba(255,92,92,0); } 100% { box-shadow: 0 0 0 0 rgba(255,92,92,0); } }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: rgba(255,255,255,.9); }
+.tape { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(255,255,255,.88); backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px); border-bottom: 1px solid var(--line); overflow: hidden; }
+.tape-inner { display: flex; align-items: center; height: 48px; }
+.tape-brand { flex: none; display: flex; align-items: center; gap: 8px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 16px; font-weight: 900; font-size: 16px; text-decoration: none; background: #fff; position: relative; z-index: 2; box-shadow: 14px 0 14px #fff; }
+.tape-brand .logo { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; font-size: 14px; }
 .tape-track { flex: 1; min-width: 0; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
-.tape-run { display: flex; width: max-content; animation: run 38s linear infinite; }
+.tape-run { display: flex; width: max-content; animation: run 40s linear infinite; }
 .tape-run:hover { animation-play-state: paused; }
 @keyframes run { to { transform: translateX(-50%); } }
-.tape-item { display: flex; align-items: baseline; gap: 8px; padding: 0 22px; font-size: 14px; white-space: nowrap; border-right: 1px solid var(--board-line); }
-.tape-item b { font-weight: 600; }
-.tape-item .num { font-size: 14px; }
+.tape-item { display: flex; align-items: center; gap: 8px; padding: 0 20px; font-size: 14px; white-space: nowrap; }
+.tape-item .dot { width: 8px; height: 8px; border-radius: 50%; }
+.tape-item b { font-weight: 700; }
+.tape-item .num { font-weight: 700; }
 .tape-item .chg { font-size: 13px; }
-.tape-nav { flex: none; display: none; gap: 2px; padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-left: 12px; background: var(--board-bg); box-shadow: -12px 0 14px var(--board-bg); position: relative; z-index: 2; }
-.tape-nav a { font-size: 13px; color: var(--board-dim); text-decoration: none; padding: 4px 10px; border-radius: 6px; }
-.tape-nav a:hover { color: var(--board-fg); background: var(--board-panel); }
-@media (min-width: 980px) { .tape-nav { display: flex; } }
+.tape-nav { flex: none; display: none; gap: 2px; padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-left: 12px; background: #fff; box-shadow: -14px 0 14px #fff; position: relative; z-index: 2; }
+.tape-nav a { font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 999px; }
+.tape-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+@media (min-width: 1000px) { .tape-nav { display: flex; } }
 
 /* ───── 첫 화면 ───── */
-.hero { padding-block: 56px 64px; background:
-  radial-gradient(900px 420px at 85% 10%, var(--accent-soft), transparent 70%),
-  linear-gradient(180deg, var(--surface-2), var(--paper)); border-bottom: 1px solid var(--line); }
-.hero-grid { display: grid; gap: 44px; grid-template-columns: minmax(0, 1fr); align-items: center; }
+.hero { padding-block: 64px 72px; position: relative; overflow: hidden; background:
+  radial-gradient(520px 360px at 8% 0%, #ffe9dc, transparent 70%),
+  radial-gradient(600px 420px at 95% 15%, #e4e2ff, transparent 70%),
+  radial-gradient(560px 380px at 60% 110%, #dcf7ef, transparent 70%),
+  var(--paper); }
+.hero-grid { display: grid; gap: 48px; grid-template-columns: minmax(0, 1fr); align-items: center; position: relative; }
 @media (min-width: 980px) { .hero-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
-.eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--accent); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 14px 5px 10px; }
-.eyebrow i { font-style: normal; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: var(--on-accent); font-size: 11px; }
-.hero h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(40px, 6.4vw, 72px); line-height: 1.12; letter-spacing: -.01em; margin-top: 22px; text-wrap: balance; }
-.hero h1 .hl { position: relative; white-space: nowrap; }
-.hero h1 .hl::after { content: ""; position: absolute; left: -2px; right: -2px; bottom: .08em; height: .26em; background: var(--gold); opacity: .55; z-index: -1; border-radius: 3px; }
-.hero h1 .hl { z-index: 0; }
-.hero h1 .tick { color: var(--up); font-size: .7em; vertical-align: .12em; }
-.lede { margin-top: 20px; font-size: 18px; color: var(--muted); max-width: 34em; text-wrap: pretty; }
-.lede strong { color: var(--ink); font-weight: 600; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--accent); background: #fff; border-radius: 999px; padding: 6px 14px; box-shadow: var(--shadow); }
+.hero h1 { font-family: var(--f-display); font-weight: 900; font-size: clamp(40px, 6vw, 68px); line-height: 1.15; letter-spacing: -.035em; margin-top: 22px; text-wrap: balance; }
+.hero h1 .grad { background: linear-gradient(90deg, var(--coral), var(--accent-2) 55%, var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero h1 .tick { color: var(--up); font-size: .62em; vertical-align: .18em; margin-left: 6px; }
+.lede { margin-top: 18px; font-size: 19px; color: var(--muted); }
+.lede strong { color: var(--ink); font-weight: 800; }
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
-.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 50px; padding: 0 22px; border-radius: 12px; font: inherit; font-size: 16px; font-weight: 700; text-decoration: none; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); transition: transform .15s, box-shadow .15s; }
-.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.addr { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 20px; font-size: 14px; color: var(--muted); }
-.addr code { font-family: var(--f-num); font-size: 14px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 3px 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 24px; border-radius: 999px; font: inherit; font-size: 16px; font-weight: 800; text-decoration: none; cursor: pointer; border: 0; background: #fff; color: var(--ink); box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s; }
+.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--on-accent); }
+.addr { margin-top: 18px; font-size: 14px; color: var(--muted); }
+.addr code { font-family: var(--f-num); font-weight: 700; color: var(--ink); }
 
-/* ───── 전광판 (첫 화면 데모) ───── */
-.board { background: var(--board-bg); color: var(--board-fg); border-radius: 20px; padding: 18px; border: 1px solid var(--board-line); box-shadow: 0 30px 60px -20px rgba(10, 15, 31, .55), inset 0 1px 0 rgba(255,255,255,.05); position: relative; overflow: hidden; min-width: 0; }
-.board::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px); }
-.board-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-bottom: 14px; }
-.board-title { display: flex; align-items: center; gap: 10px; font-family: var(--f-display); font-size: 20px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--f-body); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--board-panel); border: 1px solid var(--board-line); color: var(--board-dim); }
-.chip.live { color: var(--board-fg); }
-.chip.live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--board-up); }
-.board-clock { display: flex; align-items: center; gap: 10px; }
-.board-clock .num { font-size: 22px; font-weight: 600; color: var(--board-flash); }
-.board-clock small { color: var(--board-dim); font-size: 13px; }
-.progress { height: 4px; background: var(--board-panel); border-radius: 4px; overflow: hidden; margin-bottom: 14px; }
-.progress span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--board-down), var(--board-flash)); }
+/* ───── 전광판 (밝은 버전) ───── */
+.board { background: #fff; border-radius: 28px; padding: 20px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; min-width: 0; }
+.board-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-bottom: 12px; }
+.board-title { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 18px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--soft); color: var(--muted); }
+.chip.live { background: #ffe8e8; color: var(--up); }
+.chip.live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--up); animation: live 1.6s infinite; }
+@keyframes live { 50% { opacity: .3; } }
+.board-clock .num { font-size: 22px; font-weight: 800; color: var(--ink); }
+.board-clock small { color: var(--muted); font-size: 13px; font-family: var(--f-num); }
+.progress { height: 6px; background: var(--soft); border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+.progress span { display: block; height: 100%; width: 0; border-radius: 6px; background: linear-gradient(90deg, var(--mint), var(--accent), var(--accent-2)); }
 .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 @media (min-width: 560px) { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.tile { background: var(--board-panel); border: 1px solid var(--board-line); border-radius: 12px; padding: 11px 12px 8px; position: relative; overflow: hidden; transition: background .4s; }
-.tile::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--co); }
-.tile.flash-up { animation: fu 1.2s ease-out; }
-.tile.flash-down { animation: fd 1.2s ease-out; }
-@keyframes fu { 0% { background: rgba(255,92,92,.38); } 100% { background: var(--board-panel); } }
-@keyframes fd { 0% { background: rgba(78,165,255,.38); } 100% { background: var(--board-panel); } }
-.tile-name { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tile-price { font-family: var(--f-num); font-variant-numeric: tabular-nums; font-size: clamp(18px, 2.2vw, 22px); font-weight: 600; margin-top: 2px; }
-.tile-chg { font-family: var(--f-num); font-size: 12px; font-weight: 600; }
-.tile svg { display: block; width: 100%; height: 34px; margin-top: 4px; }
-.news { margin-top: 12px; display: flex; align-items: center; gap: 10px; min-height: 46px; background: var(--board-panel); border: 1px solid var(--board-line); border-radius: 12px; padding: 8px 12px; overflow: hidden; }
-.news-tag { flex: none; font-family: var(--f-display); font-size: 14px; color: var(--board-bg); background: var(--board-flash); padding: 2px 9px; border-radius: 6px; }
-.news-text { font-size: 14px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--board-dim); }
-.news.fresh .news-tag { background: var(--board-up); color: #fff; animation: blink .5s 4 alternate; }
-.news.fresh .news-text { color: var(--board-fg); }
-@keyframes blink { to { opacity: .35; } }
-.flash { position: absolute; inset: 0; z-index: 3; display: grid; place-items: center; padding: 24px; background: rgba(10, 15, 31, .86); backdrop-filter: blur(3px); text-align: center; opacity: 0; pointer-events: none; transition: opacity .25s; }
+.tile { background: color-mix(in srgb, var(--co) 7%, #fff); border-radius: 16px; padding: 12px 12px 8px; position: relative; overflow: hidden; }
+.tile.flash-up { animation: fu 1.1s ease-out; }
+.tile.flash-down { animation: fd 1.1s ease-out; }
+@keyframes fu { 0% { box-shadow: inset 0 0 0 2px var(--up); } 100% { box-shadow: inset 0 0 0 2px transparent; } }
+@keyframes fd { 0% { box-shadow: inset 0 0 0 2px var(--down); } 100% { box-shadow: inset 0 0 0 2px transparent; } }
+.tile-name { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tile-price { font-family: var(--f-num); font-variant-numeric: tabular-nums; font-size: clamp(19px, 2.2vw, 23px); font-weight: 800; margin-top: 2px; letter-spacing: -.01em; }
+.tile-chg { font-family: var(--f-num); font-size: 12px; font-weight: 800; }
+.tile svg { display: block; width: 100%; height: 32px; margin-top: 4px; }
+.news { margin-top: 12px; display: flex; align-items: center; gap: 10px; min-height: 46px; background: var(--soft); border-radius: 14px; padding: 8px 12px; overflow: hidden; }
+.news-tag { flex: none; font-weight: 900; font-size: 13px; color: #fff; background: var(--muted); padding: 3px 10px; border-radius: 999px; }
+.news-text { font-size: 14px; font-weight: 600; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); }
+.news.fresh { background: #fff0ec; }
+.news.fresh .news-tag { background: var(--coral); }
+.news.fresh .news-text { color: var(--ink); }
+.flash { position: absolute; inset: 0; z-index: 3; display: grid; place-items: center; padding: 24px; background: rgba(255, 255, 255, .9); backdrop-filter: blur(6px); text-align: center; opacity: 0; pointer-events: none; transition: opacity .25s; }
 .flash.on { opacity: 1; }
 .flash-inner { max-width: 30em; }
-.flash-badge { display: inline-block; font-family: var(--f-display); font-size: 18px; letter-spacing: .1em; color: #fff; background: var(--board-up); padding: 4px 16px; border-radius: 6px; }
-.flash-title { font-family: var(--f-display); font-size: clamp(22px, 3vw, 30px); line-height: 1.3; margin-top: 14px; text-wrap: balance; }
-.flash-fx { margin-top: 12px; font-family: var(--f-num); font-size: 18px; font-weight: 600; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-.board-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; font-size: 12px; color: var(--board-dim); }
+.flash-badge { display: inline-block; font-weight: 900; font-size: 15px; letter-spacing: .1em; color: #fff; background: linear-gradient(135deg, var(--coral), #ff3d7f); padding: 5px 16px; border-radius: 999px; }
+.flash-title { font-weight: 900; font-size: clamp(21px, 2.8vw, 28px); line-height: 1.35; margin-top: 14px; letter-spacing: -.02em; text-wrap: balance; }
+.flash-fx { margin-top: 12px; font-family: var(--f-num); font-size: 18px; font-weight: 800; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.board-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; font-size: 12px; color: var(--muted); }
 .board-btns { display: flex; gap: 8px; }
-.bbtn { font: inherit; font-size: 13px; font-weight: 600; color: var(--board-fg); background: var(--board-panel); border: 1px solid var(--board-line); border-radius: 8px; padding: 6px 12px; cursor: pointer; min-height: 34px; }
-.bbtn:hover { border-color: var(--board-dim); }
+.bbtn { font: inherit; font-size: 13px; font-weight: 700; color: var(--accent); background: var(--accent-soft); border: 0; border-radius: 999px; padding: 6px 14px; cursor: pointer; min-height: 34px; }
+.bbtn:hover { background: #dbe5ff; }
 
 /* ───── 숫자 띠 ───── */
-.stats { border-bottom: 1px solid var(--line); background: var(--surface); }
-.stats-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stats-grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: -36px; position: relative; }
 @media (min-width: 720px) { .stats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1040px) { .stats-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
-.stat { padding: 22px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: -1px; }
-.stat b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 34px; line-height: 1.1; }
-.stat b small { font-family: var(--f-body); font-size: 15px; font-weight: 700; margin-left: 2px; }
-.stat span { font-size: 13px; color: var(--muted); }
+.stat { background: #fff; border-radius: 18px; padding: 18px; box-shadow: var(--shadow); }
+.stat .si { font-size: 22px; }
+.stat b { display: block; font-family: var(--f-num); font-weight: 800; font-size: 30px; line-height: 1.15; margin-top: 6px; letter-spacing: -.02em; }
+.stat b small { font-family: var(--f-body); font-size: 15px; font-weight: 800; margin-left: 2px; }
+.stat span { font-size: 13px; color: var(--muted); font-weight: 600; }
 
 /* ───── 장(章) ───── */
-section.chapter { padding-block: 84px 20px; scroll-margin-top: 48px; }
-.kicker { font-size: 13px; font-weight: 700; letter-spacing: .12em; color: var(--accent); }
-.chapter h2 { font-family: var(--f-display); font-weight: 400; font-size: clamp(30px, 4.2vw, 44px); line-height: 1.2; margin-top: 8px; text-wrap: balance; }
-.chapter .intro { color: var(--muted); font-size: 17px; max-width: 40em; margin-top: 14px; text-wrap: pretty; }
-.chapter .body { margin-top: 36px; }
+section.chapter { padding-block: 88px 8px; scroll-margin-top: 56px; }
+.kicker { display: inline-block; font-size: 13px; font-weight: 800; color: var(--accent); background: var(--accent-soft); padding: 4px 12px; border-radius: 999px; }
+.chapter h2 { font-weight: 900; font-size: clamp(28px, 4vw, 42px); line-height: 1.25; letter-spacing: -.035em; margin-top: 14px; text-wrap: balance; }
+.chapter .intro { color: var(--muted); font-size: 17px; margin-top: 10px; }
+.chapter .body { margin-top: 32px; }
+.tag { display: inline-flex; align-items: center; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.tag.sun { background: var(--sun-soft); color: #a36b00; }
+.tag.mint { background: var(--mint-soft); color: #0f8a74; }
 
-/* 두 차시 */
-.periods { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 860px) { .periods { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
-.period { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; min-width: 0; }
-.period-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.period-head h3 { font-family: var(--f-display); font-weight: 400; font-size: 26px; }
-.tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
-.tag.gold { background: var(--gold-soft); color: var(--ink); }
-.period p { color: var(--muted); margin-top: 8px; }
-.steps { list-style: none; padding: 0; margin-top: 20px; display: grid; gap: 0; counter-reset: s; }
-.steps li { position: relative; padding: 0 0 16px 44px; counter-increment: s; }
-.steps li::before { content: counter(s); position: absolute; left: 0; top: 1px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-num); font-size: 13px; font-weight: 600; background: var(--surface-2); border: 1px solid var(--line); color: var(--accent); }
-.steps li::after { content: ""; position: absolute; left: 14px; top: 32px; bottom: 2px; width: 1px; background: var(--line); }
-.steps li:last-child::after { display: none; }
-.steps li:last-child { padding-bottom: 0; }
-.steps b { display: block; font-weight: 700; }
-.steps span { color: var(--muted); font-size: 15px; }
-.who { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 5px; margin-right: 6px; vertical-align: 2px; background: var(--surface-2); border: 1px solid var(--line); color: var(--muted); }
-.who.t { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+/* 그림 흐름 (아이콘 → 아이콘) */
+.lanes { display: grid; gap: 16px; }
+.lane { background: #fff; border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: center; }
+@media (min-width: 860px) { .lane { grid-template-columns: 150px minmax(0, 1fr); } }
+.lane-head { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.lane-head b { font-size: 26px; font-weight: 900; letter-spacing: -.03em; }
+.pipe { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+.pipe-step { flex: 1 1 130px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 18px 10px; border-radius: 16px; background: var(--soft); min-width: 0; }
+.pipe-step .pi { font-size: 34px; line-height: 1; }
+.pipe-step b { font-size: 15px; font-weight: 800; }
+.pipe-step small { font-size: 13px; color: var(--muted); font-weight: 600; }
+.pipe-step.hot { background: linear-gradient(135deg, #fff1c2, #ffe0d6); }
+@media (min-width: 700px) {
+  .pipe { flex-wrap: nowrap; }
+  .pipe-step:not(:last-child)::after { content: ""; position: absolute; right: -9px; top: 50%; width: 8px; height: 8px; border-top: 2px solid #b9c3e6; border-right: 2px solid #b9c3e6; transform: translateY(-50%) rotate(45deg); z-index: 1; }
+}
 
 /* 32분 시간표 */
-.timeline { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
-.tl-scale { position: relative; height: 18px; font-family: var(--f-num); font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.timeline { background: #fff; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+.tl-scale { position: relative; height: 18px; font-family: var(--f-num); font-weight: 700; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
 .tl-scale span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
 .tl-scale span:first-child { transform: none; }
 .tl-scale span:last-child { transform: translateX(-100%); }
-.tl-bar { display: flex; height: 64px; border-radius: 10px; overflow: hidden; gap: 3px; }
-.tl-seg { position: relative; display: flex; flex-direction: column; justify-content: center; padding: 0 12px; color: #fff; min-width: 0; cursor: pointer; border: 0; font: inherit; text-align: left; transition: filter .2s, transform .2s; }
-.tl-seg:hover, .tl-seg[aria-pressed="true"] { filter: brightness(1.08) saturate(1.1); }
-.tl-seg[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; bottom: -1px; transform: translateX(-50%); border: 8px solid transparent; border-bottom-color: var(--surface); }
-.tl-seg b { font-family: var(--f-display); font-weight: 400; font-size: 18px; line-height: 1.1; white-space: nowrap; }
-.tl-seg small { font-size: 12px; opacity: .9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tl-seg.r1 { flex: 8; background: #2b4bb0; }
-.tl-seg.r2 { flex: 7; background: #6741d9; }
-.tl-seg.r3 { flex: 10; background: repeating-linear-gradient(135deg, #c92a2a 0 12px, #b02525 12px 24px); }
-.tl-seg.r4 { flex: 7; background: #0b7285; }
-.tl-detail { margin-top: 22px; display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 820px) { .tl-detail { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
-.tl-detail h3 { font-family: var(--f-display); font-weight: 400; font-size: 26px; }
-.tl-detail p { color: var(--muted); margin-top: 6px; }
-.tl-facts { display: grid; gap: 10px; align-content: start; }
-.fact { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); font-size: 15px; }
-.fact span { color: var(--muted); }
-.fact b { font-weight: 700; text-align: right; }
-.note { margin-top: 18px; display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--muted); background: var(--gold-soft); border-radius: 10px; padding: 12px 14px; }
-.note b { color: var(--ink); }
+.tl-bar { display: flex; height: 76px; gap: 6px; }
+.tl-seg { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 14px; min-width: 0; cursor: pointer; border: 0; border-radius: 16px; font: inherit; text-align: left; color: var(--ink); background: var(--bg); transition: transform .2s, box-shadow .2s; }
+.tl-seg:hover { transform: translateY(-2px); }
+.tl-seg[aria-pressed="true"] { box-shadow: inset 0 0 0 3px var(--bd); }
+.tl-seg .ri { font-size: 22px; line-height: 1; }
+.tl-seg b { font-weight: 900; font-size: 15px; margin-top: 4px; white-space: nowrap; }
+.tl-seg.r1 { flex: 8; --bg: #e8efff; --bd: var(--accent); }
+.tl-seg.r2 { flex: 7; --bg: #efeaff; --bd: var(--accent-2); }
+.tl-seg.r3 { flex: 10; --bg: repeating-linear-gradient(135deg, #ffe4dc 0 12px, #ffd9cf 12px 24px); --bd: var(--coral); }
+.tl-seg.r4 { flex: 7; --bg: #def7f1; --bd: var(--mint); }
+.tl-detail { margin-top: 18px; display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: center; }
+@media (min-width: 820px) { .tl-detail { grid-template-columns: minmax(0, 1fr) auto; } }
+.tl-detail h3 { font-weight: 900; font-size: 22px; letter-spacing: -.02em; }
+.tl-detail p { color: var(--muted); margin-top: 4px; }
+.tl-facts { display: flex; flex-wrap: wrap; gap: 8px; }
+.fact { display: flex; flex-direction: column; padding: 10px 16px; border-radius: 14px; background: var(--soft); min-width: 110px; }
+.fact span { font-size: 12px; color: var(--muted); font-weight: 700; }
+.fact b { font-weight: 800; font-size: 15px; }
+.note { margin-top: 16px; display: flex; gap: 10px; align-items: center; font-size: 15px; background: var(--sun-soft); border-radius: 14px; padding: 12px 16px; }
 
 /* 여섯 기업 */
-.companies { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); }
-.co { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: grid; grid-template-columns: auto 1fr auto; gap: 4px 14px; align-items: center; position: relative; overflow: hidden; }
-.co::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--co); }
-.co-icon { grid-row: span 2; width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 28px; background: color-mix(in srgb, var(--co) 14%, transparent); }
-.co-name { font-weight: 700; font-size: 18px; line-height: 1.3; }
-.co-sector { font-size: 13px; color: var(--muted); grid-column: 2; }
-.co-price { grid-row: 1 / span 2; grid-column: 3; text-align: right; }
-.co-price .num { font-size: 18px; font-weight: 600; display: block; }
-.co-price small { font-size: 12px; color: var(--muted); }
-.co-desc { grid-column: 1 / -1; font-size: 14px; color: var(--muted); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.companies { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 720px) { .companies { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1040px) { .companies { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.co { background: #fff; border-radius: var(--radius); padding: 20px 14px 18px; text-align: center; box-shadow: var(--shadow); display: grid; justify-items: center; gap: 4px; transition: transform .2s; }
+.co:hover { transform: translateY(-4px); }
+.co-icon { width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; font-size: 34px; background: color-mix(in srgb, var(--co) 14%, #fff); margin-bottom: 6px; }
+.co-name { font-weight: 800; font-size: 17px; }
+.co-sector { font-size: 13px; color: var(--muted); font-weight: 600; }
+.co-price { margin-top: 6px; font-family: var(--f-num); font-weight: 800; font-size: 15px; color: var(--co); background: color-mix(in srgb, var(--co) 10%, #fff); padding: 3px 12px; border-radius: 999px; }
 
 /* 화면 다섯 개 */
-.roles { display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 920px) { .roles { grid-template-columns: minmax(0, 260px) minmax(0, 1fr); } }
-.role-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.roles { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 920px) { .roles { grid-template-columns: minmax(0, 230px) minmax(0, 1fr); } }
+.role-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; }
 @media (min-width: 920px) { .role-tabs { flex-direction: column; overflow: visible; } }
-.role-tab { flex: none; display: grid; grid-template-columns: auto 1fr; gap: 0 12px; align-items: center; text-align: left; font: inherit; cursor: pointer; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; color: var(--ink); min-height: 48px; }
-.role-tab .ri { grid-row: span 2; font-size: 24px; }
-.role-tab b { font-size: 16px; }
-.role-tab small { font-family: var(--f-num); font-size: 12px; color: var(--muted); }
-.role-tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.role-tab[aria-selected="true"] small { color: var(--on-accent); opacity: .8; }
-.role-panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); min-width: 0; }
-@media (min-width: 760px) { .role-panel { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: start; } }
-.role-panel h3 { font-family: var(--f-display); font-weight: 400; font-size: 28px; }
-.role-panel .who-line { font-size: 14px; color: var(--muted); margin-top: 2px; }
-.role-panel ul { margin-top: 14px; padding-left: 0; list-style: none; display: grid; gap: 8px; }
-.role-panel li { position: relative; padding-left: 20px; font-size: 15px; }
-.role-panel li::before { content: ""; position: absolute; left: 4px; top: .68em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.role-tab { flex: none; display: flex; gap: 12px; align-items: center; text-align: left; font: inherit; font-weight: 800; font-size: 16px; cursor: pointer; background: #fff; border: 0; border-radius: 16px; padding: 12px 16px; color: var(--ink); min-height: 52px; box-shadow: var(--shadow); }
+.role-tab .ri { font-size: 24px; }
+.role-tab[aria-selected="true"] { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--on-accent); }
+.role-panel { background: #fff; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+@media (min-width: 760px) { .role-panel { grid-template-columns: minmax(0, 4fr) minmax(0, 5fr); align-items: center; } }
+.role-panel h3 { font-weight: 900; font-size: 26px; letter-spacing: -.03em; }
+.role-panel .who-line { margin-top: 8px; }
+.role-panel ul { margin-top: 16px; padding-left: 0; list-style: none; display: grid; gap: 10px; }
+.role-panel li { display: flex; gap: 10px; align-items: center; font-size: 15px; font-weight: 600; }
+.role-panel li .li { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--soft); font-size: 17px; }
 
-/* 화면 모형 (앱 화면을 흉내 낸 그림) */
-.mock { background: #f1f3f8; color: #1b1f27; border-radius: 14px; border: 8px solid #1b2235; padding: 12px; font-size: 12px; line-height: 1.45; box-shadow: var(--shadow); min-width: 0; }
-.mock.dark { background: #0a0f1f; color: #edf0f8; }
+/* 화면 모형 */
+.mock { background: #f4f6fc; color: #1a2140; border-radius: 22px; border: 8px solid #e4e9f6; padding: 12px; font-size: 12px; line-height: 1.45; min-width: 0; box-shadow: var(--shadow); }
 .m-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.m-card { background: #fff; border: 1px solid #dde2ea; border-radius: 9px; padding: 8px 10px; margin-top: 8px; }
-.mock.dark .m-card { background: #121a30; border-color: #222c48; }
-.m-big { font-family: var(--f-num); font-size: 17px; font-weight: 600; }
-.m-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 26px; padding: 0 10px; border-radius: 7px; font-weight: 700; font-size: 11px; border: 1px solid #dde2ea; background: #fff; color: #1b1f27; }
-.m-btn.buy { background: #e03131; border-color: #e03131; color: #fff; }
-.m-btn.sell { background: #1971c2; border-color: #1971c2; color: #fff; }
-.m-btn.pri { background: #1f3a8a; border-color: #1f3a8a; color: #fff; }
-.m-btn.on { background: #1f3a8a; color: #fff; border-color: #1f3a8a; }
-.m-muted { color: #68707d; }
-.mock.dark .m-muted { color: #8b94ad; }
-.m-up { color: #e03131; } .m-down { color: #1971c2; }
-.mock.dark .m-up { color: #ff5c5c; } .mock.dark .m-down { color: #4ea5ff; }
+.m-card { background: #fff; border-radius: 12px; padding: 9px 11px; margin-top: 8px; }
+.m-big { font-family: var(--f-num); font-size: 17px; font-weight: 800; }
+.m-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 26px; padding: 0 11px; border-radius: 999px; font-weight: 800; font-size: 11px; background: #eef2fb; color: #1a2140; }
+.m-btn.buy { background: var(--up); color: #fff; }
+.m-btn.sell { background: var(--down); color: #fff; }
+.m-btn.pri, .m-btn.on { background: var(--accent); color: #fff; }
+.m-muted { color: #6b7394; }
+.m-up { color: var(--up); } .m-down { color: var(--down); }
 .m-letters { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-top: 6px; }
-.m-letters span { aspect-ratio: 1; display: grid; place-items: center; border-radius: 6px; border: 1px solid #dde2ea; background: #fff; font-weight: 700; }
-.m-letters span.used { background: #e9f7ee; border-color: #8ad1a2; color: #2f9e44; }
+.m-letters span { aspect-ratio: 1; display: grid; place-items: center; border-radius: 8px; background: #eef2fb; font-weight: 800; }
+.m-letters span.used { background: var(--mint-soft); color: #0f8a74; }
 .m-pad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 8px; }
-.m-pad span { min-height: 30px; display: grid; place-items: center; border-radius: 7px; background: #fff; border: 1px solid #dde2ea; font-weight: 700; font-size: 12px; }
-.m-pad span.sel { background: #1f3a8a; color: #fff; border-color: #1f3a8a; }
+.m-pad span { min-height: 30px; display: grid; place-items: center; border-radius: 9px; background: #eef2fb; font-weight: 800; font-size: 12px; }
+.m-pad span.sel { background: var(--accent); color: #fff; }
 .m-crumbs { display: flex; gap: 4px; flex-wrap: wrap; }
-.m-crumbs span { font-size: 10px; padding: 1px 7px; border-radius: 999px; background: #e2e8f8; color: #1f3a8a; font-weight: 700; }
-.m-crumbs span.done { background: #1f3a8a; color: #fff; }
+.m-crumbs span { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: #e8efff; color: var(--accent); font-weight: 800; }
+.m-crumbs span.done { background: var(--accent); color: #fff; }
 .m-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 8px; }
-.m-tiles div { background: #121a30; border: 1px solid #222c48; border-radius: 7px; padding: 6px; }
+.m-tiles div { background: #fff; border-radius: 9px; padding: 6px; font-weight: 700; }
 .m-tiles b { display: block; font-family: var(--f-num); font-size: 13px; }
-.m-strip { margin-top: 8px; text-align: center; font-weight: 700; background: #c92a2a; color: #fff; border-radius: 6px; padding: 4px; }
+.m-strip { margin-top: 8px; text-align: center; font-weight: 800; background: #ffe4dc; color: #d1401f; border-radius: 9px; padding: 5px; }
 .m-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.m-news { background: #fff0ec; }
 
 /* 정보 카드 */
-.cards-layout { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 900px) { .cards-layout { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
-.howto { display: grid; gap: 12px; align-content: start; }
-.howto-item { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
-.howto-item b { display: block; font-size: 16px; }
-.howto-item span { font-size: 15px; color: var(--muted); }
-.howto-item .num { color: var(--up); font-weight: 600; }
-.icards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
-.icard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 10px; position: relative; }
-.icard-letter { position: absolute; top: 14px; right: 16px; font-family: var(--f-display); font-size: 30px; color: var(--line); line-height: 1; }
-.icard-src { font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: .02em; padding-right: 36px; }
-.icard-text { font-size: 16px; font-weight: 600; line-height: 1.5; flex: 1; }
+.mini-h { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 900; margin-top: 36px; margin-bottom: 14px; letter-spacing: -.02em; }
+.icards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.icard { background: #fff; border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 12px; position: relative; box-shadow: var(--shadow); }
+.icard-src { display: inline-flex; align-self: flex-start; font-size: 12px; font-weight: 800; color: var(--muted); background: var(--soft); padding: 4px 10px; border-radius: 999px; }
+.icard-text { font-size: 17px; font-weight: 700; line-height: 1.5; flex: 1; letter-spacing: -.01em; }
 .icard-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.icard-btns button { font: inherit; font-weight: 700; font-size: 15px; min-height: 44px; border-radius: 10px; cursor: pointer; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); }
-.icard-btns button:hover { border-color: var(--accent); }
-.icard-result { font-size: 14px; border-radius: 10px; padding: 10px 12px; background: var(--surface-2); }
+.icard-btns button { font: inherit; font-weight: 800; font-size: 15px; min-height: 46px; border-radius: 999px; cursor: pointer; border: 0; background: var(--soft); color: var(--ink); }
+.icard-btns button:hover { background: #e2e9fb; }
+.icard-btns button.picked { background: var(--accent); color: #fff; }
+.icard-result { font-size: 14px; border-radius: 14px; padding: 10px 14px; }
 .icard-result b { display: block; font-size: 15px; }
-.icard-result.right b { color: #2f9e44; }
+.icard-result.right { background: var(--mint-soft); }
+.icard-result.right b { color: #0f8a74; }
+.icard-result.wrong { background: #ffecec; }
 .icard-result.wrong b { color: var(--up); }
-.icard.done .icard-btns button[data-pick].picked { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
-.example-note { font-size: 13px; color: var(--muted); margin-top: 12px; }
 
 /* 창구 */
-.counter-layout { display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); }
+.counter-layout { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 900px) { .counter-layout { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
-.flow { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); counter-reset: f; }
-.flow-step { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; counter-increment: f; position: relative; }
-.flow-step::before { content: counter(f); font-family: var(--f-num); font-size: 12px; font-weight: 600; color: var(--accent); }
-.flow-step b { display: block; font-size: 16px; margin-top: 2px; }
-.flow-step span { font-size: 13px; color: var(--muted); }
-.flow-step.end { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.flow-step.end::before, .flow-step.end span { color: var(--on-accent); opacity: .85; }
-.fees { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: grid; gap: 14px; align-content: start; }
-.fees h3 { font-size: 18px; font-weight: 700; }
-.fee-row { display: grid; grid-template-columns: 70px 1fr auto; align-items: center; gap: 12px; font-size: 15px; }
-.fee-bar { height: 12px; border-radius: 6px; background: var(--surface-2); overflow: hidden; }
-.fee-bar span { display: block; height: 100%; border-radius: 6px; }
-.fees p { font-size: 14px; color: var(--muted); }
-.reasons { display: flex; flex-wrap: wrap; gap: 6px; }
-.reasons span { font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--up-soft); color: var(--up); font-weight: 600; }
+.fees { background: #fff; border-radius: var(--radius); padding: 22px; display: grid; gap: 14px; align-content: center; box-shadow: var(--shadow); }
+.fees h3 { font-size: 18px; font-weight: 900; }
+.fee-row { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; }
+.fee-bar { height: 14px; border-radius: 7px; background: var(--soft); overflow: hidden; }
+.fee-bar span { display: block; height: 100%; border-radius: 7px; }
+.fees p { font-size: 14px; color: var(--muted); font-weight: 600; }
 
 /* 순위 공개 */
-.reveal { background: var(--board-bg); color: var(--board-fg); border-radius: 20px; padding: 26px; border: 1px solid var(--board-line); display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); }
+.reveal { background: linear-gradient(135deg, #fff3c9 0%, #ffe1d8 50%, #ece6ff 100%); border-radius: 28px; padding: 28px; display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 860px) { .reveal { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: center; } }
-.reveal h3 { font-family: var(--f-display); font-weight: 400; font-size: 26px; }
-.reveal p { color: var(--board-dim); margin-top: 8px; font-size: 15px; }
+.reveal h3 { font-weight: 900; font-size: 24px; letter-spacing: -.02em; }
+.reveal p { color: var(--muted); margin-top: 6px; font-weight: 600; }
 .reveal-steps { display: flex; gap: 6px; margin-top: 18px; flex-wrap: wrap; }
-.reveal-steps span { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--board-panel); border: 1px solid var(--board-line); color: var(--board-dim); }
-.reveal-steps span.on { background: var(--board-flash); color: var(--board-bg); border-color: var(--board-flash); }
-.stage { min-height: 280px; display: grid; place-items: center; text-align: center; background: var(--board-panel); border: 1px solid var(--board-line); border-radius: 14px; padding: 20px; position: relative; }
-.stage-place { font-family: var(--f-display); font-size: 22px; color: var(--board-flash); }
-.stage-team { font-family: var(--f-display); font-size: clamp(30px, 5vw, 48px); line-height: 1.15; margin-top: 6px; }
-.stage-money { font-family: var(--f-num); font-size: 18px; margin-top: 8px; }
+.reveal-steps span { font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,.7); color: var(--muted); }
+.reveal-steps span.on { background: var(--ink); color: #fff; }
+.stage { min-height: 260px; display: grid; place-items: center; text-align: center; background: #fff; border-radius: 22px; padding: 20px; position: relative; box-shadow: var(--shadow-lg); }
+.stage-place { font-size: 24px; font-weight: 900; }
+.stage-team { font-weight: 900; font-size: clamp(30px, 5vw, 46px); line-height: 1.15; margin-top: 6px; letter-spacing: -.03em; }
+.stage-money { font-family: var(--f-num); font-weight: 800; font-size: 18px; margin-top: 8px; color: var(--up); }
 .stage .pop { animation: pop .6s cubic-bezier(.2, 1.4, .4, 1); }
 @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 .top3 { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; text-align: left; }
-.top3 h4 { font-size: 14px; color: var(--board-flash); margin-bottom: 6px; }
+.top3 h4 { font-size: 14px; font-weight: 900; margin-bottom: 8px; }
 .top3 ol { padding-left: 0; list-style: none; display: grid; gap: 6px; }
-.top3 li { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; background: var(--board-bg); border-radius: 8px; padding: 6px 10px; }
-.top3 li .num { color: var(--board-up); }
-.ex-tag { position: absolute; top: 10px; right: 12px; font-size: 11px; color: var(--board-dim); }
+.top3 li { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 700; background: var(--soft); border-radius: 10px; padding: 7px 10px; }
+.top3 li .num { color: var(--up); }
+.ex-tag { position: absolute; top: 12px; right: 14px; font-size: 11px; font-weight: 700; color: var(--muted); }
 
 /* 교사 도구 */
-.tools { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
-.tool { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
-.tool-ico { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); font-size: 20px; }
-.tool b { display: block; font-size: 17px; margin-top: 12px; }
-.tool p { font-size: 15px; color: var(--muted); margin-top: 4px; }
-.kbd { display: inline-block; font-size: 13px; font-weight: 600; padding: 0 7px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2); white-space: nowrap; }
+.tools { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 720px) { .tools { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.tool { background: #fff; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+.tool-ico { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 24px; background: var(--ti, var(--accent-soft)); }
+.tool b { display: block; font-size: 17px; font-weight: 800; margin-top: 12px; }
+.tool p { font-size: 14px; color: var(--muted); margin-top: 2px; font-weight: 600; }
 
 /* 시작하기 */
-.start { display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); }
+.start { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 900px) { .start { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
-.check-group { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
-.check-group + .check-group { margin-top: 12px; }
-.check-group h3 { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; }
+.checks { display: grid; gap: 12px; }
+.check-group { background: #fff; border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow); }
+.check-group h3 { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 900; }
 .check-group ul { list-style: none; padding: 0; margin-top: 12px; display: grid; gap: 8px; }
-.check-group label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 15px; }
-.check-group input { flex: none; width: 20px; height: 20px; margin-top: 3px; accent-color: var(--accent); }
+.check-group label { display: flex; gap: 10px; align-items: center; cursor: pointer; font-size: 15px; font-weight: 600; }
+.check-group input { flex: none; width: 20px; height: 20px; accent-color: var(--accent); }
 .check-group input:checked + span { color: var(--muted); text-decoration: line-through; }
-.check-group code { font-family: var(--f-num); font-size: 13px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; }
-.qr-card { background: var(--accent); color: var(--on-accent); border-radius: 20px; padding: 28px; display: grid; gap: 16px; justify-items: center; text-align: center; align-content: start; }
-.qr-box { background: #fff; padding: 14px; border-radius: 14px; width: 204px; height: 204px; display: grid; place-items: center; }
+.check-group code { font-family: var(--f-num); font-size: 13px; font-weight: 800; color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 1px 6px; }
+.qr-card { background: linear-gradient(150deg, var(--accent) 0%, var(--accent-2) 100%); color: #fff; border-radius: 28px; padding: 28px; display: grid; gap: 16px; justify-items: center; text-align: center; align-content: start; box-shadow: var(--shadow-lg); }
+.qr-box { background: #fff; padding: 14px; border-radius: 20px; width: 204px; height: 204px; display: grid; place-items: center; }
 .qr-box img, .qr-box canvas { width: 176px !important; height: 176px !important; }
-.qr-url { font-family: var(--f-num); font-size: 18px; font-weight: 600; word-break: break-all; }
-.qr-card p { font-size: 14px; opacity: .85; }
-.qr-card .btn { background: var(--on-accent); color: var(--accent); border-color: var(--on-accent); }
-.paths { width: 100%; display: grid; gap: 6px; text-align: left; }
-.paths div { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; padding: 6px 10px; border-radius: 8px; background: rgba(255,255,255,.1); }
-.paths code { font-family: var(--f-num); font-weight: 600; }
+.qr-url { font-family: var(--f-num); font-size: 19px; font-weight: 800; word-break: break-all; }
+.paths { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; text-align: left; }
+.paths div { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 700; padding: 7px 10px; border-radius: 10px; background: rgba(255,255,255,.16); }
+.paths code { font-family: var(--f-num); font-weight: 800; }
+.qr-card .btn { color: var(--accent); }
 
 /* FAQ */
 .faq { display: grid; gap: 10px; max-width: 860px; }
-.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
-.faq summary { cursor: pointer; list-style: none; padding: 16px 48px 16px 18px; font-weight: 700; font-size: 16px; position: relative; min-height: 48px; }
+.faq details { background: #fff; border-radius: 16px; box-shadow: var(--shadow); }
+.faq summary { cursor: pointer; list-style: none; padding: 16px 52px 16px 20px; font-weight: 800; font-size: 16px; position: relative; min-height: 52px; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-family: var(--f-num); font-size: 20px; color: var(--accent); }
+.faq summary::after { content: "+"; position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-family: var(--f-num); font-size: 17px; }
 .faq details[open] summary::after { content: "−"; }
-.faq .ans { padding: 0 18px 18px; color: var(--muted); font-size: 15px; display: grid; gap: 6px; }
+.faq .ans { padding: 0 20px 18px; color: var(--muted); font-size: 15px; font-weight: 500; }
 
-footer { margin-top: 90px; padding-block: 36px 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+footer { margin-top: 96px; padding-block: 32px 44px; background: #fff; color: var(--muted); font-size: 14px; font-weight: 600; }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
 </style>
 </head>
@@ -389,7 +342,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
 <!-- 시세 띠 -->
 <header class="tape" aria-label="시세 띠">
   <div class="tape-inner">
-    <a class="tape-brand" href="#top"><span class="dot" aria-hidden="true"></span>우리 반 증권거래소</a>
+    <a class="tape-brand" href="#top"><span class="logo" aria-hidden="true">▲</span>우리 반 증권거래소</a>
     <div class="tape-track" aria-hidden="true"><div class="tape-run" id="tapeRun"></div></div>
     <nav class="tape-nav" aria-label="페이지 안 이동">
       <a href="#flow">수업 흐름</a><a href="#rounds">32분 장</a><a href="#screens">화면</a><a href="#cards">정보 카드</a><a href="#start">시작하기</a>
@@ -402,72 +355,68 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="eyebrow"><i>2</i>중학교 2학년 · 경제 · 모의 주식 투자 수업 사이트</span>
-        <h1>속보 한 줄에<br><span class="hl">우리 반 주가</span>가<br>움직입니다<span class="tick"> ▲</span></h1>
-        <p class="lede">팀마다 <strong>가상 돈 100만 원</strong>을 들고 여섯 회사의 주식을 사고팝니다. 교사 노트북이 거래소가 되어 정해진 시각에 속보를 내보내고, 학생은 태블릿과 종이 주문서로 주문합니다. 소문과 사실을 가려내는 눈이 수익률을 가릅니다.</p>
+        <span class="eyebrow">📈 중학교 2학년 · 모의 주식 투자 수업</span>
+        <h1>속보 한 줄에<br><span class="grad">우리 반 주가</span>가<br>움직입니다<span class="tick">▲</span></h1>
+        <p class="lede">팀마다 <strong>가상 돈 100만 원</strong>. 속보를 읽고, 소문을 가려내고, 사고팝니다.</p>
         <div class="cta">
           <a class="btn primary" href="https://stock-6cc8f.web.app" target="_blank" rel="noopener">수업 사이트 열기 ↗</a>
-          <a class="btn" href="#flow">수업 흐름 보기 ↓</a>
+          <a class="btn" href="#flow">둘러보기 ↓</a>
         </div>
-        <div class="addr">주소 <code>stock-6cc8f.web.app</code> 학생은 회원가입 없이 바로 들어옵니다</div>
+        <p class="addr"><code>stock-6cc8f.web.app</code> · 학생은 회원가입 없이 바로</p>
       </div>
 
       <div class="board" id="board" aria-label="전광판 미리보기">
         <div class="board-top">
-          <div class="board-title">📺 전광판 <span class="chip live" id="boardState">연습 장 재생 중</span></div>
-          <div class="board-clock"><span class="num" id="clock">00:00</span><small>/ 08:00</small></div>
+          <div class="board-title">📺 전광판 <span class="chip live" id="boardState">재생 중</span></div>
+          <div class="board-clock"><span class="num" id="clock">00:00</span> <small>/ 08:00</small></div>
         </div>
         <div class="progress"><span id="prog"></span></div>
         <div class="tiles" id="tiles"></div>
         <div class="news" id="news"><span class="news-tag">속보</span><span class="news-text" id="newsText">곧 장이 열립니다</span></div>
         <div class="flash" id="flash" aria-live="polite"><div class="flash-inner"><span class="flash-badge">속보</span><div class="flash-title" id="flashTitle"></div><div class="flash-fx" id="flashFx"></div></div></div>
         <div class="board-foot">
-          <span>실제 연습 모드와 같은 계산으로 8분을 48초에 재생</span>
+          <span>연습 장 8분을 48초로</span>
           <div class="board-btns"><button class="bbtn" id="btnPause" type="button">일시정지</button><button class="bbtn" id="btnReplay" type="button">처음부터</button></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 숫자 띠 -->
-  <div class="stats">
-    <div class="wrap stats-grid">
-      <div class="stat"><b>2<small>차시</small></b><span>연습 1차시 · 본 활동 1차시</span></div>
-      <div class="stat"><b>32<small>분</small></b><span>본 활동 장 시간 · 4라운드</span></div>
-      <div class="stat"><b>6<small>개</small></b><span>상장 기업 · 업종이 모두 달라요</span></div>
-      <div class="stat"><b>12<small>건</small></b><span>정해진 시각에 터지는 속보</span></div>
-      <div class="stat"><b>8<small>장</small></b><span>정보 카드 · 진짜와 가짜가 섞임</span></div>
-      <div class="stat"><b>0<small>원</small></b><span>운영비 · Firebase 무료 요금제</span></div>
+  <!-- 숫자 -->
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat"><span class="si">🗓️</span><b>2<small>차시</small></b><span>연습 + 본 활동</span></div>
+      <div class="stat"><span class="si">⏱️</span><b>32<small>분</small></b><span>4라운드</span></div>
+      <div class="stat"><span class="si">🏢</span><b>6<small>개</small></b><span>상장 기업</span></div>
+      <div class="stat"><span class="si">📰</span><b>12<small>건</small></b><span>속보</span></div>
+      <div class="stat"><span class="si">🃏</span><b>8<small>장</small></b><span>정보 카드</span></div>
+      <div class="stat"><span class="si">💸</span><b>0<small>원</small></b><span>운영비</span></div>
     </div>
   </div>
 
   <!-- 수업 흐름 -->
   <section class="chapter" id="flow">
     <div class="wrap">
-      <p class="kicker">수업 흐름</p>
-      <h2>혼자 연습하고, 팀으로 맞붙습니다</h2>
-      <p class="intro">1차시에는 학생 한 명이 노트북으로 8분짜리 연습 장을 직접 굴려 보며 화면과 매매에 익숙해집니다. 2차시에는 팀을 꾸려 32분 동안 진짜 승부를 벌이고, 학년 아홉 반이 같은 주가 흐름으로 순위를 겨룹니다.</p>
-      <div class="body periods">
-        <article class="period">
-          <div class="period-head"><h3>1차시 · 개인 연습</h3><span class="tag">8분 · 기록 안 남음</span></div>
-          <p>팀·종이 주문서·창구·정보 카드 없이, 거래 화면과 속보에 익숙해지는 시간입니다.</p>
-          <ol class="steps">
-            <li><b><span class="who t">교사</span>[1차시용: 연습만 열기]</b><span>팀 화면은 잠기고 연습 화면만 열립니다.</span></li>
-            <li><b><span class="who">학생</span>노트북으로 연습 화면 열기</b><span>"용기있는 돌고래 94" 같은 이름이 무작위로 붙어요. 반 하나 30명이 동시에 해도 됩니다.</span></li>
-            <li><b><span class="who">학생</span>8분 동안 사고팔기</b><span>연습 속보 3건, 연습 퀴즈 1개. 결과는 어디에도 저장되지 않습니다.</span></li>
-          </ol>
-        </article>
-        <article class="period">
-          <div class="period-head"><h3>2차시 · 본 활동</h3><span class="tag gold">팀 대항 · 학년 순위</span></div>
-          <p>팀 태블릿, 창구 직원, 교실 TV 전광판, 교사 노트북이 한 장(場)에서 함께 움직입니다.</p>
-          <ol class="steps">
-            <li><b><span class="who t">교사</span>[새 반 시작] → [2차시용: 본 활동 열기]</b><span>반 번호·팀 수·창구 수를 정하면 학생 화면이 모두 새 반으로 넘어갑니다.</span></li>
-            <li><b><span class="who">팀</span>QR로 팀 등록 (개장 전)</b><span>책상의 QR을 찍고 팀 이름과 4자리 비밀번호를 정합니다.</span></li>
-            <li><b><span class="who t">교사</span>[개장] — 32분 장 시작</b><span>속보가 정해진 시각에 저절로 나가고, 주가는 10초마다 조금씩 흔들립니다.</span></li>
-            <li><b><span class="who">팀</span>4라운드 동안 매매 · 퀴즈 쿠폰</b><span>3라운드에는 태블릿 거래가 멈추고 창구 주문만 받습니다.</span></li>
-            <li><b><span class="who t">교사</span>장 마감 → 순위 공개</b><span>전광판에 3위, 2위, 1위를 차례로 띄우고 우리 반·학년 TOP 3로 마무리합니다.</span></li>
-          </ol>
-        </article>
+      <span class="kicker">수업 흐름</span>
+      <h2>혼자 연습하고, 팀으로 맞붙어요</h2>
+      <div class="body lanes">
+        <div class="lane">
+          <div class="lane-head"><b>1차시</b><span class="tag">개인 · 8분</span></div>
+          <div class="pipe">
+            <div class="pipe-step"><span class="pi">🔓</span><b>연습만 열기</b><small>교사</small></div>
+            <div class="pipe-step"><span class="pi">💻</span><b>노트북으로 입장</b><small>무작위 이름</small></div>
+            <div class="pipe-step"><span class="pi">🧪</span><b>8분 연습</b><small>기록 안 남음</small></div>
+          </div>
+        </div>
+        <div class="lane">
+          <div class="lane-head"><b>2차시</b><span class="tag sun">팀 · 32분</span></div>
+          <div class="pipe">
+            <div class="pipe-step"><span class="pi">📱</span><b>QR로 팀 등록</b><small>개장 전</small></div>
+            <div class="pipe-step"><span class="pi">🔔</span><b>개장</b><small>교사</small></div>
+            <div class="pipe-step"><span class="pi">📈</span><b>4라운드 매매</b><small>속보·카드·창구</small></div>
+            <div class="pipe-step hot"><span class="pi">🏆</span><b>순위 공개</b><small>반·학년 TOP 3</small></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -475,19 +424,19 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <!-- 32분 장 -->
   <section class="chapter" id="rounds">
     <div class="wrap">
-      <p class="kicker">본 활동 시간표</p>
-      <h2>32분, 네 라운드마다 규칙이 바뀝니다</h2>
-      <p class="intro">막대 길이가 라운드 시간입니다. 라운드를 눌러 무엇이 달라지는지 보세요. 라운드마다 속보가 3건씩 나오지만, 언제 무엇이 나오는지는 수업 전까지 학생에게 비밀입니다.</p>
+      <span class="kicker">본 활동 시간표</span>
+      <h2>32분, 라운드마다 규칙이 바뀌어요</h2>
+      <p class="intro">라운드를 눌러 보세요.</p>
       <div class="body timeline">
-        <div class="tl-scale num"><span style="left:0">0분</span><span style="left:25%">8분</span><span style="left:46.9%">15분</span><span style="left:78.1%">25분</span><span style="left:100%">32분</span></div>
+        <div class="tl-scale"><span style="left:0">0분</span><span style="left:25%">8분</span><span style="left:46.9%">15분</span><span style="left:78.1%">25분</span><span style="left:100%">32분</span></div>
         <div class="tl-bar" role="group" aria-label="라운드 고르기">
-          <button class="tl-seg r1" type="button" data-r="0" aria-pressed="true"><b>1R</b><small>태블릿 거래</small></button>
-          <button class="tl-seg r2" type="button" data-r="1" aria-pressed="false"><b>2R</b><small>정보 카드</small></button>
-          <button class="tl-seg r3" type="button" data-r="2" aria-pressed="false"><b>3R</b><small>창구 주문만</small></button>
-          <button class="tl-seg r4" type="button" data-r="3" aria-pressed="false"><b>4R</b><small>마지막 승부</small></button>
+          <button class="tl-seg r1" type="button" data-r="0" aria-pressed="true"><span class="ri">📱</span><b>1R</b></button>
+          <button class="tl-seg r2" type="button" data-r="1" aria-pressed="false"><span class="ri">🃏</span><b>2R</b></button>
+          <button class="tl-seg r3" type="button" data-r="2" aria-pressed="false"><span class="ri">🏦</span><b>3R</b></button>
+          <button class="tl-seg r4" type="button" data-r="3" aria-pressed="false"><span class="ri">🏁</span><b>4R</b></button>
         </div>
         <div class="tl-detail" id="tlDetail"></div>
-        <div class="note"><span aria-hidden="true">⚖️</span><span><b>아홉 반이 똑같은 장을 겪습니다.</b> 잔잔한 흔들림도 정해진 씨앗값으로 계산해서, 1반과 9반의 주가 흐름이 한 치도 다르지 않습니다. 그래서 학년 순위가 공정합니다. 단, 모든 반의 변동 간격을 같게(기본 10초) 두어야 해요.</span></div>
+        <div class="note"><span aria-hidden="true">⚖️</span><span><b>아홉 반 모두 같은 주가 흐름</b> → 학년 순위가 공정해요</span></div>
       </div>
     </div>
   </section>
@@ -495,9 +444,8 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <!-- 기업 -->
   <section class="chapter" id="companies">
     <div class="wrap">
-      <p class="kicker">상장 기업</p>
-      <h2>여섯 회사, 여섯 가지 이야기</h2>
-      <p class="intro">날씨, 유가, 정부 정책, 신작 게임, 신약 시험. 업종이 모두 달라서 같은 뉴스에도 오르는 회사와 내리는 회사가 갈립니다. 회사마다 색이 정해져 있어 모든 화면에서 한눈에 알아봅니다.</p>
+      <span class="kicker">상장 기업</span>
+      <h2>여섯 회사, 여섯 가지 업종</h2>
       <div class="body companies" id="coList"></div>
     </div>
   </section>
@@ -505,9 +453,8 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <!-- 화면 -->
   <section class="chapter" id="screens">
     <div class="wrap">
-      <p class="kicker">다섯 화면</p>
+      <span class="kicker">다섯 화면</span>
       <h2>주소 하나, 역할마다 다른 화면</h2>
-      <p class="intro">같은 사이트에서 역할을 고르면 그 역할의 화면이 열립니다. 오른쪽 그림은 화면 구성을 알아보기 쉽게 다시 그린 것입니다.</p>
       <div class="body roles">
         <div class="role-tabs" role="tablist" aria-label="화면 고르기" id="roleTabs"></div>
         <div class="role-panel" role="tabpanel" id="rolePanel" aria-live="polite"></div>
@@ -518,20 +465,18 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <!-- 정보 카드 -->
   <section class="chapter" id="cards">
     <div class="wrap">
-      <p class="kicker">2라운드 · 정보 카드와 퀴즈 쿠폰</p>
+      <span class="kicker">2라운드 · 정보 카드</span>
       <h2>이 정보, 믿어도 될까요?</h2>
-      <p class="intro">2라운드가 되면 교실 곳곳에 A~H 정보 카드 8장이 붙습니다. 공식 발표, 신문 기사, 단톡방 캡처, 유튜브 영상… 출처가 제각각이고 진짜와 가짜가 섞여 있습니다. 어떤 정보를 믿고 움직이느냐가 그대로 수익률이 됩니다.</p>
-      <div class="body cards-layout">
-        <div class="howto">
-          <div class="howto-item"><b>카드 앞면 · 정보</b><span>출처와 내용만 적혀 있습니다. 진짜인지는 끝까지 알려 주지 않아요.</span></div>
-          <div class="howto-item"><b>카드 뒷면 · 퀴즈</b><span>경제 개념 문제가 하나씩. 팀 태블릿에서 카드 글자를 누르고 답을 적으면 쿠폰이 됩니다.</span></div>
-          <div class="howto-item"><b>정답이면 <span class="num">+20,000원</span></b><span>카드마다 한 번. 틀리면 그 카드는 10초 동안 다시 못 적습니다. 띄어쓰기는 상관없어요.</span></div>
-          <div class="howto-item"><b>태블릿에는 문제가 안 보여요</b><span>카드 앞에 가서 직접 읽어야 합니다. 그래서 2라운드는 교실이 북적입니다.</span></div>
+      <p class="intro">교실에 A~H 카드 8장. 진짜와 가짜가 섞여 있어요.</p>
+      <div class="body">
+        <div class="pipe">
+          <div class="pipe-step"><span class="pi">🃏</span><b>앞면: 정보</b><small>믿을까 말까</small></div>
+          <div class="pipe-step"><span class="pi">❓</span><b>뒷면: 퀴즈</b><small>경제 개념</small></div>
+          <div class="pipe-step"><span class="pi">📱</span><b>태블릿에 정답</b><small>카드 글자 선택</small></div>
+          <div class="pipe-step hot"><span class="pi">💰</span><b>+20,000원</b><small>카드마다 한 번</small></div>
         </div>
-        <div>
-          <div class="icards" id="icards"></div>
-          <p class="example-note">위 세 장은 이 안내 페이지를 위해 따로 만든 예시입니다. 실제 수업 카드와 내용이 다릅니다.</p>
-        </div>
+        <h3 class="mini-h">직접 골라 보세요 <span class="tag mint">예시 카드</span></h3>
+        <div class="icards" id="icards"></div>
       </div>
     </div>
   </section>
@@ -539,27 +484,23 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <!-- 창구 -->
   <section class="chapter" id="counter">
     <div class="wrap">
-      <p class="kicker">3라운드 · 증권사 창구</p>
-      <h2>태블릿이 멈추면, 창구에 줄이 섭니다</h2>
-      <p class="intro">15분이 되면 태블릿 거래가 정지되고, 종이 주문서를 들고 증권사 창구로 가야 합니다. 창구 직원은 학생이 맡고, 주문 한 건을 15초 안에 처리하도록 버튼만으로 입력하게 만들었습니다. 팀마다 담당 창구가 자동으로 정해집니다.</p>
+      <span class="kicker">3라운드 · 증권사 창구</span>
+      <h2>태블릿이 멈추면, 창구에 줄이 서요</h2>
+      <p class="intro">종이 주문서 → 학생 직원 → 15초 안에 체결</p>
       <div class="body counter-layout">
-        <div>
-          <div class="flow">
-            <div class="flow-step"><b>팀 번호</b><span>미등록·주문서 소진이면 바로 안내</span></div>
-            <div class="flow-step"><b>비밀번호 4자리</b><span>틀리면 그 자리에서 다시</span></div>
-            <div class="flow-step"><b>종목</b><span>여섯 회사 중 하나</span></div>
-            <div class="flow-step"><b>매수 / 매도</b><span>사기 빨강, 팔기 파랑</span></div>
-            <div class="flow-step"><b>수량</b><span>숫자 패드, +1 +5 +10 최대</span></div>
-            <div class="flow-step end"><b>주문 확인</b><span>체결 또는 거부, 2초 뒤 처음으로</span></div>
-          </div>
-          <p class="example-note" style="margin-top:16px">거부 사유도 그대로 알려 줍니다.</p>
-          <div class="reasons" style="margin-top:8px"><span>잔액 부족</span><span>보유 수량 부족</span><span>비밀번호 오류</span><span>주문서 소진</span><span>다른 창구 담당</span><span>창구 마감</span></div>
+        <div class="pipe">
+          <div class="pipe-step"><span class="pi">🔢</span><b>팀 번호</b></div>
+          <div class="pipe-step"><span class="pi">🔑</span><b>비밀번호</b></div>
+          <div class="pipe-step"><span class="pi">🏢</span><b>종목</b></div>
+          <div class="pipe-step"><span class="pi">↕️</span><b>매수·매도</b></div>
+          <div class="pipe-step"><span class="pi">✋</span><b>수량</b></div>
+          <div class="pipe-step hot"><span class="pi">✅</span><b>체결</b></div>
         </div>
         <div class="fees">
-          <h3>수수료가 두 배</h3>
+          <h3>수수료</h3>
           <div class="fee-row"><span>태블릿</span><div class="fee-bar"><span style="width:50%;background:var(--accent)"></span></div><b class="num">1,000원</b></div>
-          <div class="fee-row"><span>창구</span><div class="fee-bar"><span style="width:100%;background:var(--up)"></span></div><b class="num">2,000원</b></div>
-          <p>창구 수수료는 그대로 직원 실적이 됩니다. 처리 건수와 수수료 수입으로 우수 직원을 뽑을 수 있어요. 잔액 부족·보유 부족으로 거부돼도 주문서 한 장은 씁니다.</p>
+          <div class="fee-row"><span>창구</span><div class="fee-bar"><span style="width:100%;background:var(--coral)"></span></div><b class="num">2,000원</b></div>
+          <p>창구 수수료 = 직원 실적</p>
         </div>
       </div>
     </div>
@@ -568,17 +509,16 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <!-- 순위 공개 -->
   <section class="chapter" id="reveal">
     <div class="wrap">
-      <p class="kicker">장 마감 뒤 · 순위 공개</p>
+      <span class="kicker">장 마감 뒤</span>
       <h2>3위부터 한 칸씩, 팡파르와 함께</h2>
-      <p class="intro">마감가로 팀마다 총자산을 계산해 전광판에 차례로 띄웁니다. 학생 화면에는 우리 반과 학년의 TOP 3까지만 나오고, 전체 순위는 선생님 화면에서만 봅니다.</p>
       <div class="body reveal">
         <div>
-          <h3>교사가 [다음]을 누를 때마다</h3>
-          <p>전광판이 한 단계씩 넘어갑니다. 아래 버튼으로 연출을 미리 보세요.</p>
+          <h3>눌러서 미리 보기</h3>
+          <p>학생 화면에는 TOP 3까지만</p>
           <div class="reveal-steps" id="revealSteps"><span>3위</span><span>2위</span><span>1위</span><span>반·학년 TOP 3</span></div>
           <div class="cta" style="margin-top:18px"><button class="btn primary" id="revealNext" type="button">순위 공개 시작</button></div>
         </div>
-        <div class="stage" id="stage"><span class="ex-tag">예시 팀</span><div><div class="stage-place">장 마감</div><div class="stage-team">순위를 공개할까요?</div></div></div>
+        <div class="stage" id="stage"></div>
       </div>
     </div>
   </section>
@@ -586,16 +526,15 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <!-- 교사 도구 -->
   <section class="chapter" id="tools">
     <div class="wrap">
-      <p class="kicker">교사 화면</p>
-      <h2>수업이 멈추지 않게 하는 버튼들</h2>
-      <p class="intro">교사 노트북이 곧 거래소 서버입니다. 주가 계산도, 속보 송출도 교사 화면이 맡습니다. 다른 탭에 가려지면 브라우저가 시계를 늦추니, 수업 중에는 교사 화면을 별도 창으로 띄워 두세요.</p>
+      <span class="kicker">교사 화면</span>
+      <h2>버튼 몇 개로 수업 진행</h2>
       <div class="body tools">
-        <div class="tool"><div class="tool-ico" aria-hidden="true">🔒</div><b>화면 열기·잠그기</b><p><span class="kbd">1차시용</span> <span class="kbd">2차시용</span> 버튼 하나로 필요한 화면만 엽니다. 잠그면 학생 화면이 바로 잠금 안내로 바뀌고, 로그인은 그대로 남습니다.</p></div>
-        <div class="tool"><div class="tool-ico" aria-hidden="true">⏯️</div><b>장 진행</b><p>개장, 일시정지·재개, 1분 앞으로·뒤로, 다음 속보 지금 내보내기. 교사 탭을 닫았다 열어도 밀린 만큼 한꺼번에 따라잡습니다.</p></div>
-        <div class="tool"><div class="tool-ico" aria-hidden="true">📢</div><b>즉석 속보</b><p>수업 분위기에 맞춰 교사가 직접 속보를 쓰고 종목별 등락률을 넣어 바로 내보냅니다.</p></div>
-        <div class="tool"><div class="tool-ico" aria-hidden="true">⏱️</div><b>변동 간격</b><p>본 활동 5·10·20초, 연습 3·5·10·20초. 간격을 바꿔도 장 전체의 출렁임은 비슷하게 맞춰집니다.</p></div>
-        <div class="tool"><div class="tool-ico" aria-hidden="true">📥</div><b>CSV 내보내기</b><p>팀 결과, 거래 내역(거부 주문 포함), 쿠폰, 창구 직원. 엑셀에서 한글이 깨지지 않게 저장합니다.</p></div>
-        <div class="tool"><div class="tool-ico" aria-hidden="true">🖨️</div><b>인쇄물</b><p>팀 태블릿 QR(A4 한 장에 12개, 아홉 반 공용), 접어 세우는 정보 카드, 종이 주문서 8장 묶음.</p></div>
+        <div class="tool"><div class="tool-ico" style="--ti:#e8efff" aria-hidden="true">🔒</div><b>열기·잠그기</b><p>차시별 버튼 하나</p></div>
+        <div class="tool"><div class="tool-ico" style="--ti:#def7f1" aria-hidden="true">⏯️</div><b>장 진행</b><p>개장·정지·1분 앞뒤</p></div>
+        <div class="tool"><div class="tool-ico" style="--ti:#ffe4dc" aria-hidden="true">📢</div><b>즉석 속보</b><p>직접 써서 바로 송출</p></div>
+        <div class="tool"><div class="tool-ico" style="--ti:#fff6d9" aria-hidden="true">⏱️</div><b>변동 간격</b><p>5 · 10 · 20초</p></div>
+        <div class="tool"><div class="tool-ico" style="--ti:#efeaff" aria-hidden="true">📥</div><b>CSV 내보내기</b><p>팀·거래·쿠폰·직원</p></div>
+        <div class="tool"><div class="tool-ico" style="--ti:#e2f3ff" aria-hidden="true">🖨️</div><b>인쇄물</b><p>QR·정보 카드·주문서</p></div>
       </div>
     </div>
   </section>
@@ -603,38 +542,34 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <!-- 시작하기 -->
   <section class="chapter" id="start">
     <div class="wrap">
-      <p class="kicker">시작하기</p>
-      <h2>수업 전에 이것만 챙기세요</h2>
-      <p class="intro">체크한 항목은 이 기기에만 기억됩니다.</p>
+      <span class="kicker">시작하기</span>
+      <h2>수업 전 체크리스트</h2>
       <div class="body start">
-        <div id="checks">
+        <div class="checks" id="checks">
           <div class="check-group"><h3>🧰 처음 한 번</h3><ul>
-            <li><label><input type="checkbox" id="c1"><span>교사 노트북에서 <code>/admin</code>을 열고 교사 기기 등록하기</span></label></li>
-            <li><label><input type="checkbox" id="c2"><span><code>/print</code>에서 팀 QR, 정보 카드, 종이 주문서 인쇄하기</span></label></li>
-            <li><label><input type="checkbox" id="c3"><span>교실 TV에 <code>/board</code>를 띄워 보고, 화면을 한 번 눌러 소리 켜기</span></label></li>
+            <li><label><input type="checkbox" id="c1"><span><code>/admin</code> 교사 기기 등록</span></label></li>
+            <li><label><input type="checkbox" id="c2"><span><code>/print</code> QR·카드·주문서 인쇄</span></label></li>
+            <li><label><input type="checkbox" id="c3"><span><code>/board</code> TV에 띄우고 한 번 눌러 소리 켜기</span></label></li>
           </ul></div>
-          <div class="check-group"><h3>🧪 1차시 직전</h3><ul>
-            <li><label><input type="checkbox" id="c4"><span>교사 화면에서 [1차시용: 연습만 열기]</span></label></li>
-            <li><label><input type="checkbox" id="c5"><span>학생 노트북으로 <code>/practice</code> 열기 (QR이나 주소 안내)</span></label></li>
+          <div class="check-group"><h3>🧪 1차시</h3><ul>
+            <li><label><input type="checkbox" id="c4"><span>[1차시용: 연습만 열기]</span></label></li>
+            <li><label><input type="checkbox" id="c5"><span>학생 노트북 <code>/practice</code></span></label></li>
           </ul></div>
-          <div class="check-group"><h3>📈 2차시 직전</h3><ul>
-            <li><label><input type="checkbox" id="c6"><span>[새 반 시작]으로 반 번호·팀 수·창구 수 정하기</span></label></li>
-            <li><label><input type="checkbox" id="c7"><span>[2차시용: 본 활동 열기] 후 팀 태블릿마다 QR로 팀 등록</span></label></li>
-            <li><label><input type="checkbox" id="c8"><span>창구 기기에 <code>/counter?c=1</code>, <code>?c=2</code> 띄우고 직원 이름 입력</span></label></li>
-            <li><label><input type="checkbox" id="c9"><span>정보 카드는 2라운드(8분)에 붙일 수 있게 준비</span></label></li>
-            <li><label><input type="checkbox" id="c10"><span>교사 화면은 별도 창으로, 다른 창에 가리지 않게</span></label></li>
+          <div class="check-group"><h3>📈 2차시</h3><ul>
+            <li><label><input type="checkbox" id="c6"><span>[새 반 시작] → [2차시용: 본 활동 열기]</span></label></li>
+            <li><label><input type="checkbox" id="c7"><span>팀 태블릿 QR 등록</span></label></li>
+            <li><label><input type="checkbox" id="c8"><span>창구 기기 <code>/counter?c=1</code></span></label></li>
+            <li><label><input type="checkbox" id="c10"><span>교사 화면은 별도 창으로 띄워 두기</span></label></li>
           </ul></div>
         </div>
         <aside class="qr-card">
           <div class="qr-box" id="qr" role="img" aria-label="수업 사이트 QR 코드"></div>
           <div class="qr-url">stock-6cc8f.web.app</div>
-          <p>휴대폰·태블릿 카메라로 찍으면 바로 열립니다</p>
           <div class="paths">
-            <div><span>팀 태블릿</span><code>/team</code></div>
-            <div><span>개인 연습</span><code>/practice</code></div>
-            <div><span>창구</span><code>/counter</code></div>
-            <div><span>전광판</span><code>/board</code></div>
-            <div><span>교사</span><code>/admin</code></div>
+            <div><span>👥 팀</span><code>/team</code></div>
+            <div><span>🧪 연습</span><code>/practice</code></div>
+            <div><span>🏦 창구</span><code>/counter</code></div>
+            <div><span>📺 전광판</span><code>/board</code></div>
           </div>
           <a class="btn" href="https://stock-6cc8f.web.app" target="_blank" rel="noopener">수업 사이트 열기 ↗</a>
         </aside>
@@ -645,16 +580,14 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   <!-- 자주 묻는 것 -->
   <section class="chapter" id="faq">
     <div class="wrap">
-      <p class="kicker">자주 묻는 것</p>
-      <h2>수업 중에 생길 수 있는 일</h2>
+      <span class="kicker">자주 묻는 것</span>
+      <h2>이럴 땐 이렇게</h2>
       <div class="body faq">
-        <details><summary>어떤 기기에서 되나요?</summary><div class="ans"><p>iPad와 갤럭시 탭, 노트북의 크롬·사파리에서 됩니다. 태블릿은 가로·세로 모두 핵심 정보가 스크롤 없이 보이고, 버튼은 손가락으로 누르기 좋게 크게 만들었습니다. 전광판은 교사 노트북의 확장 화면이나 별도 PC 어느 쪽으로 띄워도 됩니다.</p></div></details>
-        <details><summary>와이파이가 끊기면 주문이 어떻게 되나요?</summary><div class="ans"><p>연결이 끊긴 동안에는 주문을 아예 보내지 않고 "연결이 끊겼어요. 잠시 후 다시 시도하세요"라고 알려 줍니다. 끊긴 사이에 쌓였다가 나중에 엉뚱한 가격으로 체결되는 일은 없습니다.</p></div></details>
-        <details><summary>교사 화면을 실수로 닫았어요.</summary><div class="ans"><p>다시 열면 됩니다. 닫혀 있던 동안 지나간 속보와 변동을 순서대로 한꺼번에 반영해 따라잡습니다. 탭을 두 개 열어도 같은 속보가 두 번 나가지 않습니다.</p></div></details>
-        <details><summary>팀이 비밀번호를 잊었어요.</summary><div class="ans"><p>교사 화면의 팀 목록에서 그 팀 비밀번호를 초기화하세요. 그 팀 태블릿은 바로 로그아웃되고, 팀 이름과 새 비밀번호를 다시 정해 등록하면 됩니다. 현금과 주식은 그대로 남아 있어요.</p></div></details>
-        <details><summary>정말 무료인가요? 몇 반까지 할 수 있나요?</summary><div class="ans"><p>Firebase 무료 요금제만 씁니다. 리허설로 재 보니 반 하나가 약 5,400건을 읽어서 하루에 약 9개 반까지 됩니다. 한도를 넘어도 돈이 나가지는 않지만 그날 남은 시간 동안 사이트가 멈추니, 하루에 아홉 반을 넘기지 않도록 계획하세요. 한도는 한국 시간 오후 4~5시쯤 다시 채워집니다.</p><p>연습 모드는 기록을 남기지 않아서 사용량이 거의 들지 않습니다.</p></div></details>
-        <details><summary>학생이 다른 팀 순위를 모두 볼 수 있나요?</summary><div class="ans"><p>전광판에는 활동 중 상위 3팀, 마감 뒤에는 우리 반 TOP 3와 학년 TOP 3까지만 나옵니다. 반별·학년 전체 순위와 우수 창구 직원은 교사 비밀번호가 필요한 결과 화면에서만 볼 수 있습니다.</p></div></details>
-        <details><summary>속보 내용이나 정보 카드의 진짜·가짜가 미리 새지는 않나요?</summary><div class="ans"><p>팀 태블릿에는 퀴즈 문제도, 카드가 진짜인지도 나오지 않습니다. 속보는 교사 화면이 정해진 시각에 내보낼 때 처음 보입니다. 이 안내 페이지에도 실제 속보와 카드 내용은 싣지 않았습니다.</p></div></details>
+        <details><summary>📶 와이파이가 끊기면?</summary><div class="ans">주문을 보내지 않고 안내만 해요. 엉뚱한 가격에 체결되지 않아요.</div></details>
+        <details><summary>💻 교사 화면을 닫았어요</summary><div class="ans">다시 열면 밀린 속보와 변동을 한꺼번에 따라잡아요.</div></details>
+        <details><summary>🔑 팀 비밀번호를 잊었어요</summary><div class="ans">교사 화면에서 초기화 → 다시 등록. 돈과 주식은 그대로예요.</div></details>
+        <details><summary>💸 정말 무료인가요?</summary><div class="ans">네. 하루 약 9개 반까지 됩니다. 넘으면 돈 대신 그날 사이트가 멈춰요.</div></details>
+        <details><summary>🙈 학생이 전체 순위를 보나요?</summary><div class="ans">아니요. 학생 화면은 TOP 3까지만, 전체 순위는 교사만 봐요.</div></details>
       </div>
     </div>
   </section>
@@ -662,8 +595,8 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
 
 <footer>
   <div class="wrap">
-    <span>우리 반 증권거래소 · 중학교 2학년 모의 주식 투자 수업</span>
-    <span>상승 <b class="up">▲ 빨강</b> · 하락 <b class="down">▼ 파랑</b> · 모든 금액은 가상 돈입니다</span>
+    <span>우리 반 증권거래소</span>
+    <span>상승 <b class="up">▲ 빨강</b> · 하락 <b class="down">▼ 파랑</b> · 모든 금액은 가상 돈</span>
   </div>
 </footer>
 
@@ -672,12 +605,12 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
 (() => {
   // ───── 앱의 scenario.json에서 가져온 공개 정보 (기업과 연습 장) ─────
   const COMPANIES = [
-    { code: 'NYAM', name: '냠냠푸드', sector: '식품·간편식', start: 10000, icon: '🍚', color: 'var(--c-nyam)', desc: '컵밥·떡볶이 같은 간편식을 만드는 회사' },
-    { code: 'BOLT', name: '번개배터리', sector: '전기차 배터리', start: 20000, icon: '🔋', color: 'var(--c-bolt)', desc: '전기차에 들어가는 배터리를 만드는 회사' },
-    { code: 'PIXEL', name: '픽셀게임즈', sector: '게임', start: 15000, icon: '🎮', color: 'var(--c-pixel)', desc: '모바일·PC 게임을 만드는 회사' },
-    { code: 'GREEN', name: '그린에너지', sector: '태양광 발전', start: 8000, icon: '☀️', color: 'var(--c-green)', desc: '태양광 발전소를 짓고 전기를 파는 회사' },
-    { code: 'SKY', name: '하늘항공', sector: '항공·여행', start: 12000, icon: '✈️', color: 'var(--c-sky)', desc: '국내외 여객기를 운항하는 항공사' },
-    { code: 'TUNT', name: '튼튼제약', sector: '제약·바이오', start: 25000, icon: '💊', color: 'var(--c-tunt)', desc: '새로운 약을 연구하고 만드는 회사' },
+    { code: 'NYAM', name: '냠냠푸드', sector: '간편식', start: 10000, icon: '🍚', color: 'var(--c-nyam)' },
+    { code: 'BOLT', name: '번개배터리', sector: '전기차 배터리', start: 20000, icon: '🔋', color: 'var(--c-bolt)' },
+    { code: 'PIXEL', name: '픽셀게임즈', sector: '게임', start: 15000, icon: '🎮', color: 'var(--c-pixel)' },
+    { code: 'GREEN', name: '그린에너지', sector: '태양광', start: 8000, icon: '☀️', color: 'var(--c-green)' },
+    { code: 'SKY', name: '하늘항공', sector: '항공·여행', start: 12000, icon: '✈️', color: 'var(--c-sky)' },
+    { code: 'TUNT', name: '튼튼제약', sector: '제약·바이오', start: 25000, icon: '💊', color: 'var(--c-tunt)' },
   ];
   const PRACTICE_EVENTS = [
     { atMin: 0, title: '[연습] 냠냠푸드 신메뉴 \'매운 떡볶이 컵밥\' 출시', effects: { NYAM: 8 } },
@@ -690,7 +623,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
 
   const fmt = (n) => n.toLocaleString('ko-KR');
   const pctText = (p) => (p > 0 ? '▲' : p < 0 ? '▼' : '') + Math.abs(p).toFixed(2) + '%';
-  const cls = (p) => (p > 0 ? 'up' : p < 0 ? 'down' : '');
+  const pctColor = (p) => (p > 0 ? 'var(--up)' : p < 0 ? 'var(--down)' : 'var(--muted)');
 
   // ───── 앱의 엔진(src/lib/engine.ts)과 같은 계산 ─────
   function mulberry32(seed) {
@@ -704,7 +637,6 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   }
   function applyPct(price, pct) { const raw = price * (1 + pct / 100); return Math.max(NOISE.minPrice, Math.round(raw / NOISE.roundTo + 1e-9) * NOISE.roundTo); }
 
-  // 장 전체를 미리 계산해 둔다: 단계마다 {t(초), prices, event?}
   function buildTimeline() {
     const steps = [];
     PRACTICE_EVENTS.forEach((e) => steps.push({ t: e.atMin * 60, kind: 'event', event: e }));
@@ -722,18 +654,18 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   }
   const TIMELINE = buildTimeline();
 
-  // ───── 전광판 그리기 ─────
+  // ───── 전광판 ─────
   const tilesEl = document.getElementById('tiles');
   tilesEl.innerHTML = COMPANIES.map((c) => `
     <div class="tile" id="tile-${c.code}" style="--co:${c.color}">
       <div class="tile-name"><span aria-hidden="true">${c.icon}</span>${c.name}</div>
       <div class="tile-price" id="p-${c.code}">${fmt(c.start)}</div>
       <div class="tile-chg" id="d-${c.code}">0.00%</div>
-      <svg viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"><path id="a-${c.code}" fill="${c.color}" fill-opacity=".14" d=""></path><polyline id="l-${c.code}" fill="none" stroke="${c.color}" stroke-width="1.8" vector-effect="non-scaling-stroke" points=""></polyline></svg>
+      <svg viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"><path id="a-${c.code}" fill="${c.color}" fill-opacity=".16" d=""></path><polyline id="l-${c.code}" fill="none" stroke="${c.color}" stroke-width="2.2" stroke-linejoin="round" vector-effect="non-scaling-stroke" points=""></polyline></svg>
     </div>`).join('');
 
   const tapeRun = document.getElementById('tapeRun');
-  const tapeItem = (c) => `<span class="tape-item"><b>${c.icon} ${c.name}</b><span class="num" data-tp="${c.code}">${fmt(c.start)}</span><span class="chg num" data-tc="${c.code}">0.00%</span></span>`;
+  const tapeItem = (c) => `<span class="tape-item"><span class="dot" style="background:${c.color}"></span><b>${c.name}</b><span class="num" data-tp="${c.code}">${fmt(c.start)}</span><span class="chg num" data-tc="${c.code}">0.00%</span></span>`;
   tapeRun.innerHTML = COMPANIES.map(tapeItem).join('') + COMPANIES.map(tapeItem).join('');
 
   const series = {};
@@ -742,23 +674,24 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   const news = document.getElementById('news'), newsText = document.getElementById('newsText');
   const flash = document.getElementById('flash'), flashTitle = document.getElementById('flashTitle'), flashFx = document.getElementById('flashFx');
   const state = document.getElementById('boardState');
+  const btnPause = document.getElementById('btnPause');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  function setState(text, live) { state.textContent = text; state.classList.toggle('live', live); }
   function reset() {
     idx = 0; simSec = 0; doneHold = 0;
-    COMPANIES.forEach((c) => { series[c.code] = [c.start]; paint(c.code, c.start, c.start); });
+    COMPANIES.forEach((c) => { series[c.code] = [c.start]; paint(c.code, c.start); });
     newsText.textContent = '곧 장이 열립니다'; news.classList.remove('fresh');
-    state.textContent = '연습 장 재생 중';
+    setState('재생 중', true);
   }
   function paint(code, price, prev) {
     const c = COMPANIES.find((x) => x.code === code);
     const pct = (price / c.start - 1) * 100;
     document.getElementById('p-' + code).textContent = fmt(price);
     const d = document.getElementById('d-' + code);
-    d.textContent = pctText(pct); d.className = 'tile-chg ' + cls(pct);
-    d.style.color = pct > 0 ? 'var(--board-up)' : pct < 0 ? 'var(--board-down)' : 'var(--board-dim)';
+    d.textContent = pctText(pct); d.style.color = pctColor(pct);
     tapeRun.querySelectorAll(`[data-tp="${code}"]`).forEach((e) => (e.textContent = fmt(price)));
-    tapeRun.querySelectorAll(`[data-tc="${code}"]`).forEach((e) => { e.textContent = pctText(pct); e.style.color = pct > 0 ? 'var(--board-up)' : pct < 0 ? 'var(--board-down)' : 'var(--board-dim)'; });
+    tapeRun.querySelectorAll(`[data-tc="${code}"]`).forEach((e) => { e.textContent = pctText(pct); e.style.color = pctColor(pct); });
     const s = series[code], n = 48;
     const lo = Math.min(...s, c.start * 0.97), hi = Math.max(...s, c.start * 1.03);
     const pts = s.map((v, i) => `${(i / n * 100).toFixed(2)},${(31 - (v - lo) / (hi - lo) * 28).toFixed(2)}`);
@@ -775,19 +708,18 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
     flashTitle.textContent = ev.title;
     flashFx.innerHTML = Object.entries(ev.effects).map(([code, p]) => {
       const c = COMPANIES.find((x) => x.code === code);
-      return `<span style="color:${p > 0 ? 'var(--board-up)' : 'var(--board-down)'}">${c.icon} ${c.name} ${p > 0 ? '▲' : '▼'}${Math.abs(p)}%</span>`;
+      return `<span style="color:${pctColor(p)}">${c.icon} ${c.name} ${p > 0 ? '▲' : '▼'}${Math.abs(p)}%</span>`;
     }).join('');
     flash.classList.add('on');
     newsText.textContent = ev.title; news.classList.add('fresh');
     clearTimeout(flashTimer);
-    flashTimer = setTimeout(() => { flash.classList.remove('on'); }, 2600);
+    flashTimer = setTimeout(() => flash.classList.remove('on'), 2600);
     setTimeout(() => news.classList.remove('fresh'), 6000);
   }
   function applyUntil(sec) {
     while (idx < TIMELINE.length && TIMELINE[idx].t <= sec) {
       const step = TIMELINE[idx];
       const prev = idx === 0 ? null : TIMELINE[idx - 1].prices;
-      // 같은 시각의 이벤트+변동은 추세선 점 하나로
       const nextSame = TIMELINE[idx + 1] && TIMELINE[idx + 1].t === step.t;
       COMPANIES.forEach((c) => {
         if (!nextSame) series[c.code].push(step.prices[c.code]);
@@ -804,11 +736,8 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
       if (simSec < DURATION_SEC) {
         simSec = Math.min(DURATION_SEC, simSec + dt * SPEED);
         applyUntil(simSec);
-        if (simSec >= DURATION_SEC) state.textContent = '장 마감';
-      } else {
-        doneHold += dt;
-        if (doneHold > 6) reset();
-      }
+        if (simSec >= DURATION_SEC) setState('장 마감', false);
+      } else if ((doneHold += dt) > 6) reset();
     }
     const m = Math.floor(simSec / 60), s = Math.floor(simSec % 60);
     clock.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
@@ -816,39 +745,38 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
     requestAnimationFrame(frame);
   }
   reset();
-  if (reduce) { simSec = DURATION_SEC; applyUntil(simSec); flash.classList.remove('on'); state.textContent = '장 마감'; paused = true; document.getElementById('btnPause').textContent = '재생'; }
+  if (reduce) { simSec = DURATION_SEC; applyUntil(simSec); flash.classList.remove('on'); setState('장 마감', false); paused = true; btnPause.textContent = '재생'; }
   requestAnimationFrame(frame);
-  document.getElementById('btnPause').addEventListener('click', (e) => {
-    if (reduce && simSec >= DURATION_SEC) { reset(); }
-    paused = !paused; e.currentTarget.textContent = paused ? '재생' : '일시정지';
-    state.textContent = paused ? '멈춤' : simSec >= DURATION_SEC ? '장 마감' : '연습 장 재생 중';
+  btnPause.addEventListener('click', () => {
+    if (paused && simSec >= DURATION_SEC) reset();
+    paused = !paused; btnPause.textContent = paused ? '재생' : '일시정지';
+    if (paused) setState('멈춤', false); else setState('재생 중', true);
   });
-  document.getElementById('btnReplay').addEventListener('click', () => { reset(); flash.classList.remove('on'); paused = false; document.getElementById('btnPause').textContent = '일시정지'; });
+  document.getElementById('btnReplay').addEventListener('click', () => { reset(); flash.classList.remove('on'); paused = false; btnPause.textContent = '일시정지'; });
   document.addEventListener('visibilitychange', () => { last = null; });
 
-  // ───── 기업 목록 ─────
+  // ───── 기업 ─────
   document.getElementById('coList').innerHTML = COMPANIES.map((c) => `
     <article class="co" style="--co:${c.color}">
       <div class="co-icon" aria-hidden="true">${c.icon}</div>
       <div class="co-name">${c.name}</div>
       <div class="co-sector">${c.sector}</div>
-      <div class="co-price"><span class="num">${fmt(c.start)}원</span><small>시작가</small></div>
-      <p class="co-desc">${c.desc}</p>
+      <div class="co-price">${fmt(c.start)}원</div>
     </article>`).join('');
 
   // ───── 라운드 ─────
   const ROUNDS = [
-    { name: '1라운드', time: '0~8분 · 8분', mode: '태블릿 거래', text: '개장과 동시에 첫 속보가 나갑니다. 팀은 태블릿으로 자유롭게 사고팝니다. 처음 받은 100만 원을 어디에 나눠 담을지 정하는 시간입니다.', facts: [['주문 방법', '팀 태블릿'], ['수수료', '1,000원'], ['속보', '3건']] },
-    { name: '2라운드', time: '8~15분 · 7분', mode: '정보 카드 공개', text: '교실에 정보 카드 A~H가 붙습니다. 카드 앞의 정보를 읽고 믿을지 말지 정하고, 뒷면 퀴즈를 풀어 쿠폰을 받습니다. 곧 다가올 3라운드에 대비해 미리 사 두거나 팔아 둡니다.', facts: [['주문 방법', '팀 태블릿'], ['퀴즈 쿠폰', '정답마다 +20,000원'], ['속보', '3건']] },
-    { name: '3라운드', time: '15~25분 · 10분', mode: '거래 정지 · 창구 주문만', text: '태블릿 거래가 멈춥니다. 종이 주문서를 들고 우리 팀 담당 창구에 줄을 서야 합니다. 주문서 장수가 정해져 있어 한 번 한 번이 귀합니다. 큰 속보가 이 시간에 몰려 있습니다.', facts: [['주문 방법', '종이 주문서 → 창구'], ['수수료', '2,000원'], ['속보', '3건']] },
-    { name: '4라운드', time: '25~32분 · 7분', mode: '마지막 승부', text: '다시 태블릿이 열립니다. 남은 7분 동안 수익을 지키거나 뒤집어야 합니다. 32분이 되면 장이 저절로 마감되고, 그때 가격으로 총자산이 정해집니다.', facts: [['주문 방법', '팀 태블릿'], ['마감', '32분 자동 마감'], ['속보', '3건']] },
+    { name: '1라운드 · 태블릿 거래', time: '0~8분', text: '개장! 100만 원을 어디에 나눠 담을까요?', facts: [['주문', '📱 태블릿'], ['수수료', '1,000원'], ['속보', '3건']] },
+    { name: '2라운드 · 정보 카드', time: '8~15분', text: '카드를 읽고 믿을지 정하고, 퀴즈로 쿠폰을 받아요.', facts: [['주문', '📱 태블릿'], ['쿠폰', '+20,000원'], ['속보', '3건']] },
+    { name: '3라운드 · 창구 주문만', time: '15~25분', text: '태블릿 정지! 종이 주문서를 들고 창구로.', facts: [['주문', '🏦 창구'], ['수수료', '2,000원'], ['속보', '3건']] },
+    { name: '4라운드 · 마지막 승부', time: '25~32분', text: '다시 태블릿. 32분에 자동 마감돼요.', facts: [['주문', '📱 태블릿'], ['마감', '32분'], ['속보', '3건']] },
   ];
   const tlDetail = document.getElementById('tlDetail');
   const segs = [...document.querySelectorAll('.tl-seg')];
   function showRound(i) {
     const r = ROUNDS[i];
     segs.forEach((s, j) => s.setAttribute('aria-pressed', String(j === i)));
-    tlDetail.innerHTML = `<div><span class="tag">${r.time}</span><h3 style="margin-top:10px">${r.name} · ${r.mode}</h3><p>${r.text}</p></div>
+    tlDetail.innerHTML = `<div><span class="tag">${r.time}</span><h3 style="margin-top:8px">${r.name}</h3><p>${r.text}</p></div>
       <div class="tl-facts">${r.facts.map(([k, v]) => `<div class="fact"><span>${k}</span><b>${v}</b></div>`).join('')}</div>`;
   }
   segs.forEach((s, i) => s.addEventListener('click', () => showRound(i)));
@@ -856,48 +784,47 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
 
   // ───── 화면 다섯 개 ─────
   const ROLES = [
-    { key: 'team', icon: '👥', name: '팀 태블릿', path: '/team?t=3', who: '2차시 · 팀마다 태블릿 한 대',
-      points: ['책상의 QR을 찍으면 팀 번호가 정해진 채 열립니다', '팀 이름과 4자리 비밀번호로 등록, 새로고침해도 로그인 유지', '현금·총자산·수익률과 보유 주식이 스크롤 없이 한 화면에', '카드 글자 A~H를 누르고 답을 적어 퀴즈 쿠폰 받기', '3라운드에는 "창구 1로 가세요"와 남은 주문서 장수를 안내'],
+    { key: 'team', icon: '👥', name: '팀 태블릿', tag: '2차시 · 팀마다 한 대',
+      points: [['📷', 'QR 찍고 팀 등록'], ['💰', '현금·수익률 한눈에'], ['🎟️', '카드 글자로 퀴즈 쿠폰']],
       mock: `<div class="mock"><div class="m-row"><b>🦁 3팀 사자왕</b><span class="m-muted">1라운드 · 05:12</span></div>
-        <div class="m-card m-grid2"><div><span class="m-muted">현금</span><div class="m-big">412,000</div></div><div><span class="m-muted">총자산</span><div class="m-big m-up">1,046,300 <small>▲4.6%</small></div></div></div>
-        <div class="m-card"><div class="m-row"><b>🔋 번개배터리</b><span class="m-big m-up">23,040</span></div><div class="m-row" style="margin-top:4px"><span class="m-muted">20주 보유 · 평균 20,100</span><span><span class="m-btn buy">사기</span> <span class="m-btn sell">팔기</span></span></div></div>
+        <div class="m-card m-grid2"><div><span class="m-muted">현금</span><div class="m-big">412,000</div></div><div><span class="m-muted">총자산</span><div class="m-big m-up">1,046,300</div></div></div>
+        <div class="m-card"><div class="m-row"><b>🔋 번개배터리</b><span class="m-big m-up">23,040</span></div><div class="m-row" style="margin-top:4px"><span class="m-muted">20주 보유</span><span><span class="m-btn buy">사기</span> <span class="m-btn sell">팔기</span></span></div></div>
         <div class="m-card"><div class="m-row"><b>✈️ 하늘항공</b><span class="m-big m-down">11,850</span></div><div class="m-row" style="margin-top:4px"><span class="m-muted">보유 없음</span><span><span class="m-btn buy">사기</span> <span class="m-btn sell">팔기</span></span></div></div>
         <div class="m-card"><b>🎟️ 퀴즈 쿠폰</b><div class="m-letters"><span class="used">A</span><span>B</span><span class="used">C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div></div></div>` },
-    { key: 'practice', icon: '🧪', name: '개인 연습', path: '/practice', who: '1차시 · 학생 한 명이 노트북으로',
-      points: ['로그인 없이 무작위 이름으로 바로 시작', '팀 화면과 똑같은 거래 화면, 8분짜리 연습 장', '연습 속보 3건과 연습 퀴즈 1개(문제가 화면에 보여요)', '거래는 기기 안에서만 계산하고 어디에도 저장하지 않음', '반 하나 30명이 동시에 해도 사용량 부담 없음'],
-      mock: `<div class="mock"><div class="m-row"><b>🧪 연습 · 용기있는 돌고래 94</b><span class="m-muted">03:40 / 08:00</span></div>
-        <div class="m-card" style="background:#fff3bf;border-color:#f5c400"><b>속보</b> [연습] 하늘항공, 비행기 정비 문제로 일부 결항 <b class="m-down">▼10%</b></div>
+    { key: 'practice', icon: '🧪', name: '개인 연습', tag: '1차시 · 노트북 한 대씩',
+      points: [['🎲', '무작위 이름으로 바로'], ['⏱️', '8분 연습 장'], ['🗑️', '기록이 남지 않음']],
+      mock: `<div class="mock"><div class="m-row"><b>🧪 용기있는 돌고래 94</b><span class="m-muted">03:40 / 08:00</span></div>
+        <div class="m-card m-news"><b>속보</b> 하늘항공 일부 결항 <b class="m-down">▼10%</b></div>
         <div class="m-card m-grid2"><div><span class="m-muted">현금</span><div class="m-big">880,000</div></div><div><span class="m-muted">총자산</span><div class="m-big m-up">1,012,400</div></div></div>
-        <div class="m-card"><div class="m-row"><b>🍚 냠냠푸드</b><span class="m-big m-up">10,820</span></div><div class="m-row" style="margin-top:4px"><span class="m-muted">12주 보유</span><span><span class="m-btn buy">사기</span> <span class="m-btn sell">팔기</span></span></div></div>
-        <div class="m-card"><span class="m-muted">기록이 남지 않아요. 마음껏 실험해 보세요.</span></div></div>` },
-    { key: 'counter', icon: '🏦', name: '창구', path: '/counter?c=1', who: '3라운드 · 학생 증권사 직원',
-      points: ['직원 이름을 적고 창구 번호로 시작', '팀 번호 → 비밀번호 → 종목 → 매수/매도 → 수량 → 확인', '모든 단계가 큰 버튼, 단계마다 [← 뒤로]', '체결·거부 결과를 2초 보여 주고 처음으로', '처리 건수와 수수료 수입이 직원 실적으로 쌓임'],
-      mock: `<div class="mock"><div class="m-row"><b>🏦 창구 1 · 김하늘 직원</b><span class="m-muted">담당 1~6팀</span></div>
+        <div class="m-card"><div class="m-row"><b>🍚 냠냠푸드</b><span class="m-big m-up">10,820</span></div><div class="m-row" style="margin-top:4px"><span class="m-muted">12주 보유</span><span><span class="m-btn buy">사기</span> <span class="m-btn sell">팔기</span></span></div></div></div>` },
+    { key: 'counter', icon: '🏦', name: '창구', tag: '3라운드 · 학생 직원',
+      points: [['👆', '버튼만으로 입력'], ['⚡', '한 건 15초 안에'], ['🏅', '처리 실적이 쌓임']],
+      mock: `<div class="mock"><div class="m-row"><b>🏦 창구 1 · 김하늘</b><span class="m-muted">1~6팀</span></div>
         <div class="m-card"><div class="m-crumbs"><span class="done">3팀</span><span class="done">●●●●</span><span class="done">튼튼제약</span><span class="done">매수</span><span>수량</span><span>확인</span></div>
         <div class="m-row" style="margin-top:8px"><span class="m-muted">수량</span><span class="m-big">10주</span></div>
-        <div class="m-pad"><span>1</span><span>2</span><span>3</span><span>+1</span><span>4</span><span>5</span><span>6</span><span>+5</span><span>7</span><span>8</span><span>9</span><span class="sel">+10</span><span>지움</span><span>0</span><span>←</span><span>최대</span></div></div>
+        <div class="m-pad"><span>1</span><span>2</span><span>3</span><span>+1</span><span>4</span><span>5</span><span>6</span><span>+5</span><span>7</span><span>8</span><span>9</span><span class="sel">+10</span></div></div>
         <div class="m-card m-row"><span class="m-btn">← 뒤로</span><span class="m-btn pri" style="flex:1;margin-left:6px">주문 확인</span></div></div>` },
-    { key: 'board', icon: '📺', name: '전광판', path: '/board', who: '교실 TV · 모두가 함께 보는 화면',
-      points: ['여섯 종목 시세와 추세선을 아주 큰 글씨로', '속보가 나오면 7초 동안 큰 자막과 경고음', '3라운드에는 "거래 정지 · 창구 주문만" 띠와 창구 배정표', '활동 중 상위 3팀, 마감 뒤 순위 공개 연출', 'TV 해상도에 맞춰 글자가 저절로 커짐'],
-      mock: `<div class="mock dark"><div class="m-row"><b>📺 2학년 3반 증권거래소</b><span class="m-muted">3라운드 · 17:24</span></div>
-        <div class="m-strip">거래 정지 · 창구 주문만 &nbsp;|&nbsp; 창구 1: 1~6팀 · 창구 2: 7~12팀</div>
+    { key: 'board', icon: '📺', name: '전광판', tag: '교실 TV',
+      points: [['🔠', '아주 큰 글씨'], ['🚨', '속보 자막 + 경고음'], ['🏆', '순위 공개 연출']],
+      mock: `<div class="mock"><div class="m-row"><b>📺 2학년 3반 증권거래소</b><span class="m-muted">3R · 17:24</span></div>
+        <div class="m-strip">거래 정지 · 창구 주문만</div>
         <div class="m-tiles"><div>🍚 냠냠<b class="m-down">9,120</b></div><div>🔋 번개<b class="m-up">23,410</b></div><div>🎮 픽셀<b class="m-up">16,870</b></div><div>☀️ 그린<b class="m-down">7,650</b></div><div>✈️ 하늘<b class="m-up">13,180</b></div><div>💊 튼튼<b class="m-up">32,960</b></div></div>
-        <div class="m-card m-row"><span>🥇 사자왕 <span class="m-muted">3팀</span></span><b class="m-up">▲8.2%</b></div></div>` },
-    { key: 'admin', icon: '🧑‍🏫', name: '교사', path: '/admin', who: '교사 노트북 · 비밀번호 + 등록한 기기만',
-      points: ['화면 열기·잠그기 프리셋과 잠금 안내 문구', '새 반 시작, 팀 수·창구 수 설정, 팀 비밀번호 초기화', '개장·일시정지·1분 앞뒤·다음 속보·즉석 속보', '팀 목록과 순위(교사만), 순위 공개 진행', 'CSV 내보내기, 인쇄물, 학년 결과 화면'],
-      mock: `<div class="mock"><div class="m-row"><b>🧑‍🏫 교사 · 2학년 3반</b><span class="m-muted">2라운드 · 11:02</span></div>
-        <div class="m-card"><span class="m-muted">장 진행</span><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px"><span class="m-btn">⏸ 일시정지</span><span class="m-btn">−1분</span><span class="m-btn">+1분</span><span class="m-btn">다음 속보</span><span class="m-btn pri">📢 즉석 속보</span></div></div>
-        <div class="m-card"><span class="m-muted">변동 간격 (개장 전에만)</span><div style="display:flex;gap:4px;margin-top:4px"><span class="m-btn">5초</span><span class="m-btn on">10초</span><span class="m-btn">20초</span></div></div>
+        <div class="m-card m-row"><span>🥇 사자왕</span><b class="m-up">▲8.2%</b></div></div>` },
+    { key: 'admin', icon: '🧑‍🏫', name: '교사', tag: '교사 노트북',
+      points: [['🔒', '화면 열기·잠그기'], ['⏯️', '장 진행·즉석 속보'], ['📊', '전체 순위·CSV']],
+      mock: `<div class="mock"><div class="m-row"><b>🧑‍🏫 2학년 3반</b><span class="m-muted">2R · 11:02</span></div>
+        <div class="m-card"><span class="m-muted">장 진행</span><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px"><span class="m-btn">⏸ 정지</span><span class="m-btn">−1분</span><span class="m-btn">+1분</span><span class="m-btn pri">📢 즉석 속보</span></div></div>
+        <div class="m-card"><span class="m-muted">변동 간격</span><div style="display:flex;gap:4px;margin-top:4px"><span class="m-btn">5초</span><span class="m-btn on">10초</span><span class="m-btn">20초</span></div></div>
         <div class="m-card"><div class="m-row"><b>1. 사자왕</b><span class="m-up">1,046,300</span></div><div class="m-row"><b>2. 떡상팀</b><span class="m-up">1,021,800</span></div><div class="m-row"><b>3. 존버단</b><span class="m-down">987,500</span></div></div></div>` },
   ];
   const tabs = document.getElementById('roleTabs'), panel = document.getElementById('rolePanel');
-  tabs.innerHTML = ROLES.map((r, i) => `<button class="role-tab" role="tab" id="tab-${r.key}" aria-controls="rolePanel" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" type="button"><span class="ri" aria-hidden="true">${r.icon}</span><b>${r.name}</b><small>${r.path}</small></button>`).join('');
+  tabs.innerHTML = ROLES.map((r, i) => `<button class="role-tab" role="tab" id="tab-${r.key}" aria-controls="rolePanel" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" type="button"><span class="ri" aria-hidden="true">${r.icon}</span>${r.name}</button>`).join('');
   const tabEls = [...tabs.querySelectorAll('.role-tab')];
   function showRole(i) {
     const r = ROLES[i];
     tabEls.forEach((t, j) => { t.setAttribute('aria-selected', String(j === i)); t.tabIndex = j === i ? 0 : -1; });
     panel.setAttribute('aria-labelledby', 'tab-' + r.key);
-    panel.innerHTML = `<div><h3>${r.icon} ${r.name}</h3><p class="who-line">${r.who}</p><ul>${r.points.map((p) => `<li>${p}</li>`).join('')}</ul></div>${r.mock}`;
+    panel.innerHTML = `<div><h3>${r.icon} ${r.name}</h3><div class="who-line"><span class="tag">${r.tag}</span></div><ul>${r.points.map(([ic, t]) => `<li><span class="li" aria-hidden="true">${ic}</span>${t}</li>`).join('')}</ul></div>${r.mock}`;
   }
   tabEls.forEach((t, i) => {
     t.addEventListener('click', () => showRole(i));
@@ -911,23 +838,22 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
 
   // ───── 정보 카드 예시 (실제 수업 카드 아님) ─────
   const ICARDS = [
-    { letter: '가', src: '기상청 보도자료', text: '이번 주말 중부 지방에 최대 20cm의 큰 눈이 내리겠습니다.', truth: '진짜', why: '공식 기관이 낸 자료이고, 내용이 구체적입니다.' },
-    { letter: '나', src: '반 단톡방에 돈 글', text: '○○전자 내일 무조건 두 배!! 지금 안 사면 후회함 ㅋㅋ', truth: '가짜', why: '누가 썼는지 모르고, "무조건"처럼 근거 없는 확신만 있습니다.' },
-    { letter: '다', src: '○○일보 경제면', text: '△△자동차 공장에 불이 나 일주일 동안 생산이 멈춥니다.', truth: '진짜', why: '언론사가 취재한 기사이고, 기간과 피해가 분명합니다.' },
+    { src: '🏛️ 기상청 보도자료', text: '이번 주말 중부 지방에 최대 20cm 큰 눈', truth: '진짜', why: '공식 기관 + 구체적인 내용' },
+    { src: '💬 단톡방에 돈 글', text: '○○전자 내일 무조건 두 배!! 지금 사!', truth: '가짜', why: '출처 불명 + 근거 없는 "무조건"' },
+    { src: '📰 ○○일보 경제면', text: '△△자동차 공장 화재, 일주일 생산 중단', truth: '진짜', why: '취재 기사 + 기간과 피해가 분명' },
   ];
   const ic = document.getElementById('icards');
-  ic.innerHTML = ICARDS.map((c, i) => `<div class="icard" id="ic${i}"><span class="icard-letter" aria-hidden="true">${c.letter}</span><span class="icard-src">출처 · ${c.src}</span><p class="icard-text">${c.text}</p><div class="icard-btns"><button type="button" data-pick="진짜">진짜</button><button type="button" data-pick="가짜">가짜</button></div><div class="icard-result" hidden></div></div>`).join('');
+  ic.innerHTML = ICARDS.map((c, i) => `<div class="icard" id="ic${i}"><span class="icard-src">${c.src}</span><p class="icard-text">${c.text}</p><div class="icard-btns"><button type="button" data-pick="진짜">⭕ 진짜</button><button type="button" data-pick="가짜">❌ 가짜</button></div><div class="icard-result" hidden></div></div>`).join('');
   ic.addEventListener('click', (e) => {
     const b = e.target.closest('button[data-pick]'); if (!b) return;
-    const card = b.closest('.icard'), i = +card.id.slice(2), c = ICARDS[i];
-    card.classList.add('done');
+    const card = b.closest('.icard'), c = ICARDS[+card.id.slice(2)];
     card.querySelectorAll('button[data-pick]').forEach((x) => x.classList.toggle('picked', x === b));
-    const res = card.querySelector('.icard-result'); const ok = b.dataset.pick === c.truth;
+    const res = card.querySelector('.icard-result'), ok = b.dataset.pick === c.truth;
     res.hidden = false; res.className = 'icard-result ' + (ok ? 'right' : 'wrong');
-    res.innerHTML = `<b>${ok ? '맞았어요!' : '다시 생각해 봐요'} · ${c.truth}</b>${c.why}`;
+    res.innerHTML = `<b>${ok ? '🎉 정답' : '🤔 다시 생각해 봐요'} · ${c.truth}</b>${c.why}`;
   });
 
-  // ───── 순위 공개 연출 (예시 팀) ─────
+  // ───── 순위 공개 (예시 팀) ─────
   const EX = [
     { place: '🥉 3위', team: '존버단', money: '1,038,200원 · ▲3.82%' },
     { place: '🥈 2위', team: '떡상팀', money: '1,071,500원 · ▲7.15%' },
@@ -937,10 +863,10 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
   const stage = document.getElementById('stage'), rvBtn = document.getElementById('revealNext'), rvSteps = [...document.querySelectorAll('#revealSteps span')];
   function renderReveal() {
     rvSteps.forEach((s, j) => s.classList.toggle('on', j === rv));
-    if (rv < 0) { stage.innerHTML = '<span class="ex-tag">예시 팀</span><div><div class="stage-place">장 마감</div><div class="stage-team">순위를 공개할까요?</div></div>'; rvBtn.textContent = '순위 공개 시작'; return; }
+    if (rv < 0) { stage.innerHTML = '<span class="ex-tag">예시 팀</span><div><div class="stage-place">🔔 장 마감</div><div class="stage-team">순위를 공개할까요?</div></div>'; rvBtn.textContent = '순위 공개 시작'; return; }
     if (rv < 3) {
       const e = EX[rv];
-      stage.innerHTML = `<span class="ex-tag">예시 팀</span><div class="pop"><div class="stage-place">${e.place}</div><div class="stage-team">${e.team}</div><div class="stage-money up" style="color:var(--board-up)">${e.money}</div></div>`;
+      stage.innerHTML = `<span class="ex-tag">예시 팀</span><div class="pop"><div class="stage-place">${e.place}</div><div class="stage-team">${e.team}</div><div class="stage-money">${e.money}</div></div>`;
       rvBtn.textContent = '다음';
     } else {
       stage.innerHTML = `<span class="ex-tag">예시 팀</span><div class="top3 pop"><div><h4>🏆 우리 반 TOP 3</h4><ol><li><span>1 사자왕</span><span class="num">▲12.49%</span></li><li><span>2 떡상팀</span><span class="num">▲7.15%</span></li><li><span>3 존버단</span><span class="num">▲3.82%</span></li></ol></div><div><h4>🌏 학년 TOP 3</h4><ol><li><span>5반 불개미</span><span class="num">▲15.02%</span></li><li><span>3반 사자왕</span><span class="num">▲12.49%</span></li><li><span>1반 황소들</span><span class="num">▲11.30%</span></li></ol></div></div>`;
@@ -948,6 +874,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
     }
   }
   rvBtn.addEventListener('click', () => { rv = rv >= 3 ? -1 : rv + 1; renderReveal(); });
+  renderReveal();
 
   // ───── 체크리스트 (이 기기에만 기억) ─────
   document.querySelectorAll('#checks input').forEach((el) => {
@@ -957,7 +884,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space
 
   // ───── QR ─────
   try {
-    if (window.QRCode) new QRCode(document.getElementById('qr'), { text: 'https://stock-6cc8f.web.app', width: 176, height: 176, colorDark: '#131a2e', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+    if (window.QRCode) new QRCode(document.getElementById('qr'), { text: 'https://stock-6cc8f.web.app', width: 176, height: 176, colorDark: '#1a2140', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
   } catch (_) {}
 })();
 </script>
