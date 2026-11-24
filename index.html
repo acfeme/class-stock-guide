@@ -9,7 +9,7 @@
 <meta name="description" content="중학교 2학년 모의 주식 투자 수업 사이트 안내">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&family=Manrope:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&family=Orbitron:wght@500;700;800&family=Manrope:wght@600;700;800&display=swap">
 <style>
 /* Layout: 밝은 교실 거래소 — 흰 바탕에 여섯 회사 색을 파스텔로 깔고, 그림과 숫자가 말하게. 글은 한 줄씩만. */
 :root {
@@ -336,6 +336,141 @@ section.chapter { padding-block: 88px 8px; scroll-margin-top: 56px; }
 
 footer { margin-top: 96px; padding-block: 32px 44px; background: #fff; color: var(--muted); font-size: 14px; font-weight: 600; }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+
+/* ═════ 미래 테마: 밝은 홀로그램 유리 + 네온 선 + 격자 ═════ */
+:root {
+  --paper: #f3f6ff;
+  --ink: #0f1633;
+  --muted: #5d6890;
+  --line: rgba(110, 130, 255, .22);
+  --soft: rgba(232, 238, 255, .7);
+  --accent: #3a5bff;
+  --accent-2: #8a4dff;
+  --accent-soft: rgba(58, 91, 255, .1);
+  --cyan: #00c8ff;
+  --magenta: #ff3dd8;
+  --holo: linear-gradient(120deg, #00c8ff 0%, #3a5bff 35%, #8a4dff 65%, #ff3dd8 100%);
+  --glass: rgba(255, 255, 255, .62);
+  --glass-strong: rgba(255, 255, 255, .82);
+  --glow: 0 0 0 1px rgba(110, 130, 255, .22), 0 10px 30px -8px rgba(58, 91, 255, .25), 0 0 40px -12px rgba(0, 200, 255, .35);
+  --shadow: 0 0 0 1px rgba(110, 130, 255, .18), 0 10px 28px -10px rgba(58, 91, 255, .22);
+  --shadow-lg: 0 0 0 1px rgba(110, 130, 255, .22), 0 30px 60px -18px rgba(58, 91, 255, .35), 0 0 60px -20px rgba(255, 61, 216, .35);
+  --f-num: 'Orbitron', 'Manrope', 'Segoe UI', sans-serif;
+}
+body {
+  background:
+    radial-gradient(700px 500px at 0% 0%, rgba(0, 200, 255, .16), transparent 70%),
+    radial-gradient(800px 600px at 100% 30%, rgba(138, 77, 255, .14), transparent 70%),
+    radial-gradient(700px 500px at 30% 100%, rgba(255, 61, 216, .10), transparent 70%),
+    linear-gradient(rgba(58, 91, 255, .055) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, rgba(58, 91, 255, .055) 1px, transparent 1px) 0 0 / 44px 44px,
+    var(--paper);
+  background-attachment: fixed;
+}
+.num, .tile-price, .tile-chg, .m-big, .stat b, .co-price, .fact b, .qr-url, .stage-money, .board-clock small { font-family: var(--f-num); letter-spacing: .02em; }
+.tile-price { font-size: clamp(17px, 2vw, 21px); }
+.stat b { font-size: 28px; }
+
+/* 유리 패널 */
+.board, .stat, .lane, .timeline, .co, .role-tab, .role-panel, .icard, .fees, .tool, .check-group, .faq details, .stage, .eyebrow, .btn:not(.primary) {
+  background: var(--glass); backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3); box-shadow: var(--shadow);
+}
+.btn.primary, .role-tab[aria-selected="true"] { background: var(--holo); box-shadow: 0 8px 26px -6px rgba(58, 91, 255, .55), 0 0 24px -4px rgba(0, 200, 255, .45); }
+.btn.primary:hover { box-shadow: 0 10px 34px -6px rgba(58, 91, 255, .65), 0 0 34px -2px rgba(255, 61, 216, .45); }
+
+/* 시세 띠 */
+.tape, body::before { background: rgba(255, 255, 255, .7); }
+.tape { border-bottom: 1px solid transparent; border-image: var(--holo) 1; }
+.tape-brand, .tape-nav { background: rgba(255, 255, 255, .95); }
+.tape-brand { box-shadow: 14px 0 14px rgba(255,255,255,.95); letter-spacing: -.01em; }
+.tape-nav { box-shadow: -14px 0 14px rgba(255,255,255,.95); }
+.tape-brand .logo { background: var(--holo); box-shadow: 0 0 14px rgba(0, 200, 255, .6); }
+.tape-item .dot { box-shadow: 0 0 8px currentColor; }
+
+/* 첫 화면 */
+.hero { background: transparent; }
+.hero::before { content: ""; position: absolute; left: 50%; bottom: -1px; width: 140%; height: 220px; transform: translateX(-50%) perspective(420px) rotateX(62deg); transform-origin: bottom; pointer-events: none;
+  background: linear-gradient(rgba(58, 91, 255, .22) 1px, transparent 1px) 0 0 / 100% 28px, linear-gradient(90deg, rgba(58, 91, 255, .22) 1px, transparent 1px) 0 0 / 56px 100%;
+  mask-image: linear-gradient(to top, #000 10%, transparent 90%); -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 90%); }
+.eyebrow { color: var(--accent); border: 1px solid var(--line); }
+.eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+.hero h1 .grad { background: var(--holo); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; animation: holo 6s ease-in-out infinite alternate; }
+@keyframes holo { to { background-position: 100% 0; } }
+.hero h1 .tick { color: var(--magenta); text-shadow: 0 0 18px rgba(255, 61, 216, .6); }
+
+/* 전광판: 회전하는 홀로그램 테두리 */
+@property --spin { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.board { background: var(--glass-strong); border-radius: 28px; box-shadow: var(--shadow-lg); isolation: isolate; }
+.board::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; z-index: -1;
+  background: conic-gradient(from var(--spin), #00c8ff, #3a5bff, #8a4dff, #ff3dd8, #00c8ff);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: spin 6s linear infinite; }
+.board::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 60px; pointer-events: none; z-index: 2;
+  background: linear-gradient(to bottom, transparent, rgba(0, 200, 255, .12), transparent); animation: scan 4s linear infinite; }
+@keyframes spin { to { --spin: 360deg; } }
+@keyframes scan { from { transform: translateY(-60px); } to { transform: translateY(560px); } }
+.progress span { background: var(--holo); box-shadow: 0 0 12px rgba(0, 200, 255, .7); }
+.tile { background: linear-gradient(160deg, color-mix(in srgb, var(--co) 10%, #fff), rgba(255,255,255,.85)); border: 1px solid color-mix(in srgb, var(--co) 25%, transparent); }
+.tile svg polyline { filter: drop-shadow(0 0 3px currentColor); }
+.chip.live { background: rgba(255, 61, 216, .1); color: #d01fae; }
+.chip.live::before { background: var(--magenta); box-shadow: 0 0 8px var(--magenta); }
+.news { background: rgba(232, 238, 255, .8); border: 1px solid var(--line); }
+.news.fresh { background: rgba(255, 61, 216, .08); border-color: rgba(255, 61, 216, .35); }
+.news.fresh .news-tag, .flash-badge { background: linear-gradient(120deg, #ff3dd8, #8a4dff); box-shadow: 0 0 14px rgba(255, 61, 216, .5); }
+.flash { background: rgba(245, 248, 255, .86); }
+.bbtn { background: rgba(58, 91, 255, .08); border: 1px solid var(--line); }
+
+/* 숫자 */
+.stat { border: 1px solid transparent; }
+.stat:hover { box-shadow: var(--glow); }
+.stat .si { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--accent-soft); font-size: 18px; }
+
+/* 장 제목 */
+.kicker { background: transparent; border: 1px solid var(--line); color: var(--accent); display: inline-flex; align-items: center; gap: 8px; letter-spacing: .04em; }
+.kicker::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.chapter h2 { background: linear-gradient(90deg, var(--ink) 55%, #3a5bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* 흐름 */
+.pipe-step { background: rgba(255, 255, 255, .7); border: 1px solid var(--line); transition: transform .2s, box-shadow .2s; }
+.pipe-step:hover { transform: translateY(-3px); box-shadow: var(--glow); }
+.pipe-step.hot { background: linear-gradient(140deg, rgba(0, 200, 255, .14), rgba(255, 61, 216, .14)); border-color: rgba(138, 77, 255, .35); }
+@media (min-width: 700px) {
+  .pipe-step:not(:last-child)::after { width: 10px; height: 2px; border: 0; transform: translateY(-50%); right: -10px; background: var(--holo); box-shadow: 0 0 6px rgba(0, 200, 255, .8); }
+}
+
+/* 시간표 */
+.tl-seg { background: rgba(255, 255, 255, .75); border: 1px solid var(--line); }
+.tl-seg.r1 { --bd: var(--cyan); } .tl-seg.r2 { --bd: var(--accent-2); } .tl-seg.r3 { --bd: var(--magenta); } .tl-seg.r4 { --bd: var(--accent); }
+.tl-seg::before { content: ""; position: absolute; left: 12px; right: 12px; bottom: 8px; height: 3px; border-radius: 3px; background: var(--bd); box-shadow: 0 0 10px var(--bd); opacity: .55; }
+.tl-seg.r3 { background: repeating-linear-gradient(135deg, rgba(255, 61, 216, .07) 0 10px, rgba(255, 255, 255, .75) 10px 20px); }
+.tl-seg[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--bd), 0 0 22px -4px var(--bd); }
+.tl-seg[aria-pressed="true"]::before { opacity: 1; }
+.fact { background: rgba(232, 238, 255, .7); border: 1px solid var(--line); }
+.note { background: linear-gradient(120deg, rgba(0, 200, 255, .1), rgba(138, 77, 255, .1)); border: 1px solid var(--line); }
+
+/* 기업 */
+.co { border: 1px solid transparent; }
+.co:hover { box-shadow: 0 0 0 1px color-mix(in srgb, var(--co) 45%, transparent), 0 14px 34px -10px color-mix(in srgb, var(--co) 55%, transparent); }
+.co-icon { background: radial-gradient(circle at 30% 25%, #fff, color-mix(in srgb, var(--co) 22%, #fff)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--co) 30%, transparent), 0 0 24px -6px var(--co); }
+
+/* 화면 모형 */
+.mock { border: 1px solid var(--line); background: rgba(244, 247, 255, .9); box-shadow: var(--shadow-lg); outline: 6px solid rgba(255, 255, 255, .7); outline-offset: -1px; }
+.role-panel li .li { background: var(--accent-soft); border: 1px solid var(--line); }
+
+/* 카드·창구·순위 */
+.icard-btns button { background: rgba(232, 238, 255, .8); border: 1px solid var(--line); }
+.icard-btns button.picked { background: var(--holo); border-color: transparent; }
+.fee-bar { background: rgba(232, 238, 255, .9); }
+.fee-bar span { box-shadow: 0 0 10px currentColor; }
+.reveal { background: linear-gradient(130deg, rgba(0, 200, 255, .18), rgba(138, 77, 255, .16) 50%, rgba(255, 61, 216, .16)); border: 1px solid var(--line); }
+.reveal-steps span { background: rgba(255, 255, 255, .6); border: 1px solid var(--line); }
+.reveal-steps span.on { background: var(--holo); color: #fff; border-color: transparent; }
+.stage-team { background: var(--holo); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tool-ico { background: var(--accent-soft) !important; border: 1px solid var(--line); }
+.qr-card { background: var(--holo); background-size: 160% 160%; animation: holo 8s ease-in-out infinite alternate; }
+.qr-box { box-shadow: 0 0 30px rgba(255, 255, 255, .6); }
+.faq summary::after { background: var(--holo); color: #fff; }
+footer { background: rgba(255, 255, 255, .6); backdrop-filter: blur(10px); border-top: 1px solid transparent; border-image: var(--holo) 1; }
 </style>
 </head>
 <body>
