@@ -38,6 +38,8 @@ video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contai
   </div>
 </div>
 
+<div id="toast" hidden style="position:fixed;left:50%;top:110px;transform:translateX(-50%);z-index:7;background:#fff;color:#0a0f1f;font-size:22px;font-weight:800;padding:16px 26px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:calc(100vw - 32px);text-align:center"></div>
+<div id="hint" hidden style="position:fixed;right:20px;bottom:16px;z-index:4;font-size:15px;color:rgba(255,255,255,.45)">마우스를 움직이거나 화면을 누르면 버튼이 나와요</div>
 <div id="bar" hidden>
   <span id="loopState">🔁 반복 재생 중</span>
   <button id="full" type="button">⛶ 전체 화면</button>
@@ -66,7 +68,7 @@ video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contai
     v.loop = true;
     try { await v.play(); } catch (_) { v.muted = true; await v.play().catch(() => {}); }
     playing = true;
-    start.hidden = true; bar.hidden = false;
+    start.hidden = true; bar.hidden = false; document.getElementById('hint').hidden = false;
     state.textContent = v.muted ? '🔁 반복 재생 중 (소리 꺼짐)' : '🔁 반복 재생 중';
     stop.textContent = '■ 멈춤';
     keepAwake(true); showBar();
@@ -77,15 +79,30 @@ video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contai
     stop.textContent = '▶ 다시 반복 재생';
     keepAwake(false); showBar();
   }
-  go.addEventListener('click', () => { document.documentElement.requestFullscreen?.().catch(() => {}); play(); });
+  go.addEventListener('click', () => { play(); enterFull(); });
   stop.addEventListener('click', () => (playing ? pause() : play()));
   // 처음부터: 멈춰 있어도 0초로 돌아가 바로 반복 재생
   document.getElementById('restart').addEventListener('click', () => { v.currentTime = 0; play(); });
-  full.addEventListener('click', () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.().catch(() => {})));
+  // 전체 화면: 표준 → 사파리 방식 순서로 시도하고, 막히면 F11 안내
+  const toast = document.getElementById('toast');
+  function tip(msg) { toast.textContent = msg; toast.hidden = false; clearTimeout(toast._t); toast._t = setTimeout(() => (toast.hidden = true), 5000); }
+  function isFull() { return document.fullscreenElement || document.webkitFullscreenElement; }
+  async function enterFull() {
+    const el = document.documentElement;
+    try {
+      if (el.requestFullscreen) await el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else throw new Error('no api');
+    } catch (_) { tip('이 화면에서는 전체 화면 버튼이 막혀 있어요. 키보드 F11 키를 눌러 주세요.'); }
+  }
+  function exitFull() { (document.exitFullscreen || document.webkitExitFullscreen)?.call(document); }
+  full.addEventListener('click', () => (isFull() ? exitFull() : enterFull()));
+  document.addEventListener('fullscreenchange', () => (full.textContent = isFull() ? '⛶ 전체 화면 끄기' : '⛶ 전체 화면'));
   // loop 속성이 무시되는 경우를 대비해 끝나면 직접 처음부터
   v.addEventListener('ended', () => { if (playing) { v.currentTime = 0; v.play().catch(() => {}); } });
   document.addEventListener('mousemove', showBar);
   document.addEventListener('touchstart', showBar);
+  v.addEventListener('click', showBar);
   document.addEventListener('keydown', (e) => {
     if (start.hidden === false) return;
     if (e.code === 'Space') { e.preventDefault(); playing ? pause() : play(); }
