@@ -33,13 +33,14 @@ video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contai
     <h1>우리 반 <span>증권거래소</span></h1>
     <p>시연 영상 · 1분 38초</p>
     <button class="big" id="go" type="button">▶ 반복 재생 시작</button>
-    <p style="font-size:17px;margin-top:18px">[멈춤]을 누를 때까지 처음부터 계속 다시 재생해요 · 스페이스바로도 멈춤/재생</p>
+    <p style="font-size:17px;margin-top:18px">[멈춤]을 누를 때까지 처음부터 계속 다시 재생해요 · 스페이스바: 멈춤/이어서 재생 · Home 키: 처음부터</p>
   </div>
 </div>
 
 <div id="bar" hidden>
   <span id="loopState">🔁 반복 재생 중</span>
   <button id="full" type="button">⛶ 전체 화면</button>
+  <button id="restart" type="button">⏮ 처음부터</button>
   <button id="stop" type="button">■ 멈춤</button>
 </div>
 
@@ -77,14 +78,17 @@ video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contai
   }
   go.addEventListener('click', () => { document.documentElement.requestFullscreen?.().catch(() => {}); play(); });
   stop.addEventListener('click', () => (playing ? pause() : play()));
+  // 처음부터: 멈춰 있어도 0초로 돌아가 바로 반복 재생
+  document.getElementById('restart').addEventListener('click', () => { v.currentTime = 0; play(); });
   full.addEventListener('click', () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.().catch(() => {})));
   // loop 속성이 무시되는 경우를 대비해 끝나면 직접 처음부터
   v.addEventListener('ended', () => { if (playing) { v.currentTime = 0; v.play().catch(() => {}); } });
   document.addEventListener('mousemove', showBar);
   document.addEventListener('touchstart', showBar);
   document.addEventListener('keydown', (e) => {
-    if (e.code !== 'Space' || start.hidden === false) return;
-    e.preventDefault(); playing ? pause() : play();
+    if (start.hidden === false) return;
+    if (e.code === 'Space') { e.preventDefault(); playing ? pause() : play(); }
+    if (e.code === 'Home') { e.preventDefault(); v.currentTime = 0; play(); }
   });
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && playing) keepAwake(true); });
   v.addEventListener('error', () => { start.querySelector('p').textContent = '영상 파일(시연영상.mp4)을 찾지 못했어요. 이 파일과 같은 폴더에 있어야 해요.'; });
