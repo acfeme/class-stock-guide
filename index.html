@@ -481,36 +481,40 @@ body { font-weight: 400; }
 footer { background: none; border-top: 1px solid var(--line); }
 
 /* ═════ 글자 크게 (2026-11-28 요청) ═════ */
-body { font-size: 18px; word-break: keep-all; overflow-wrap: anywhere; }
-.tape-item { font-size: 15px; } .tape-item .chg { font-size: 14px; }
-.tape-brand { font-size: 18px; } .tape-nav a { font-size: 15px; }
-.eyebrow { font-size: 15px; }
-.lede { font-size: 22px; }
-.addr { font-size: 16px; } .addr code { font-size: 16px; }
-.btn { font-size: 18px; min-height: 56px; }
-.tile-name { font-size: 14px; } .tile-chg { font-size: 13px; } .news-text { font-size: 15px; } .board-foot { font-size: 13px; } .bbtn { font-size: 14px; }
-.stat b { font-size: 36px; } .stat span { font-size: 15px; }
-.kicker { font-size: 15px; }
+/* 작은 글씨는 17px 아래로, 중간 글씨는 20px 아래로 내려가지 않게 */
+body { font-size: 20px; word-break: keep-all; overflow-wrap: anywhere; }
+.tape-item { font-size: 17px; } .tape-item .chg { font-size: 16px; }
+.tape-brand { font-size: 19px; } .tape-nav a { font-size: 17px; }
+.eyebrow { font-size: 17px; }
+.lede { font-size: 24px; }
+.addr { font-size: 18px; } .addr code { font-size: 18px; }
+.btn { font-size: 19px; min-height: 58px; }
+.tile-name { font-size: 17px; } .tile-chg { font-size: 16px; } .news-text { font-size: 17px; } .news-tag { font-size: 16px; } .board-foot { font-size: 16px; } .bbtn { font-size: 16px; } .chip { font-size: 16px; }
+.board-clock small { font-size: 16px; } .flash-badge { font-size: 18px; } .ex-tag { font-size: 16px; }
+.stat b { font-size: 38px; } .stat b small { font-size: 19px; } .stat span { font-size: 18px; }
+.kicker { font-size: 17px; }
 .chapter h2 { font-size: clamp(32px, 4.6vw, 50px); }
-.chapter .intro { font-size: 20px; }
-.tag { font-size: 14px; }
-.lane-head b { font-size: 32px; }
-.pipe-step .pi { font-size: 40px; } .pipe-step b { font-size: 18px; } .pipe-step small { font-size: 15px; }
-.tl-seg b { font-size: 21px; } .tl-detail h3 { font-size: 28px; } .tl-detail p { font-size: 18px; }
-.fact span { font-size: 14px; } .fact b { font-size: 18px; }
-.note { font-size: 18px; }
-.co-name { font-size: 20px; } .co-sector { font-size: 15px; } .co-price { font-size: 17px; }
-.role-tab { font-size: 18px; } .role-panel h3 { font-size: 32px; } .role-panel li { font-size: 18px; }
-.mock { font-size: 13px; } .m-big { font-size: 19px; }
-.mini-h { font-size: 24px; }
-.icard-src { font-size: 14px; } .icard-text { font-size: 20px; } .icard-btns button { font-size: 17px; min-height: 50px; } .icard-result { font-size: 16px; } .icard-result b { font-size: 17px; }
-.fees h3 { font-size: 21px; } .fee-row { font-size: 18px; grid-template-columns: 64px 1fr auto; } .fees p { font-size: 16px; }
-.reveal h3 { font-size: 28px; } .reveal p { font-size: 17px; } .reveal-steps span { font-size: 14px; }
-.tool b { font-size: 20px; } .tool p { font-size: 16px; }
-.check-group h3 { font-size: 20px; } .check-group label { font-size: 18px; } .check-group code { font-size: 15px; }
-.qr-url { font-size: 21px; } .paths div { font-size: 15px; }
-.faq summary { font-size: 19px; } .faq .ans { font-size: 17px; }
-footer { font-size: 15px; }
+.chapter .intro { font-size: 22px; }
+.tag { font-size: 16px; padding: 5px 12px; }
+.lane-head b { font-size: 34px; }
+.pipe-step .pi { font-size: 42px; } .pipe-step b { font-size: 20px; } .pipe-step small { font-size: 17px; }
+.tl-seg b { font-size: 22px; } .tl-detail h3 { font-size: 30px; } .tl-detail p { font-size: 20px; }
+.tl-scale { font-size: 16px; height: 22px; }
+.fact span { font-size: 16px; } .fact b { font-size: 20px; }
+.note { font-size: 20px; }
+.co-name { font-size: 22px; } .co-sector { font-size: 17px; } .co-price { font-size: 19px; }
+.role-tab { font-size: 20px; } .role-panel h3 { font-size: 34px; } .role-panel li { font-size: 20px; }
+.mock { font-size: 15px; } .m-big { font-size: 21px; } .m-btn { font-size: 13px; min-height: 30px; } .m-crumbs span { font-size: 12px; } .m-letters span, .m-pad span { font-size: 14px; }
+.mini-h { font-size: 26px; }
+.icard-src { font-size: 16px; } .icard-text { font-size: 22px; } .icard-btns button { font-size: 19px; min-height: 54px; } .icard-result { font-size: 18px; } .icard-result b { font-size: 19px; }
+.fees h3 { font-size: 23px; } .fee-row { font-size: 20px; grid-template-columns: 72px 1fr auto; } .fees p { font-size: 18px; }
+.reveal h3 { font-size: 30px; } .reveal p { font-size: 19px; } .reveal-steps span { font-size: 16px; }
+.top3 h4 { font-size: 17px; } .top3 li { font-size: 17px; } .stage-money { font-size: 20px; }
+.tool b { font-size: 22px; } .tool p { font-size: 18px; }
+.check-group h3 { font-size: 22px; } .check-group label { font-size: 20px; } .check-group code { font-size: 17px; }
+.qr-url { font-size: 22px; } .paths div { font-size: 17px; }
+.faq summary { font-size: 21px; } .faq .ans { font-size: 19px; }
+footer { font-size: 17px; }
 </style>
 </head>
 <body>
