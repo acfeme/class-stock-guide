@@ -21,6 +21,13 @@ video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contai
 #bar.hide { opacity: 0; pointer-events: none; }
 #bar button { font: inherit; font-size: 20px; font-weight: 800; border: 0; border-radius: 999px; padding: 12px 26px; cursor: pointer; color: #fff; background: var(--panel); white-space: nowrap; flex: none; }
 #bar { width: max-content; max-width: calc(100vw - 32px); }
+/* 휴대폰: 버튼을 작게, 상태 글자는 숨기고 한 줄에 */
+@media (max-width: 600px) {
+  #bar { gap: 6px; padding: 8px; top: 12px; }
+  #bar #loopState { display: none; }
+  #bar button { font-size: 15px; padding: 10px 14px; }
+  .big { padding: 18px 34px; }
+}
 #bar #stop { background: var(--red); }
 #bar #loopState { font-size: 17px; color: var(--gold); padding: 0 10px; white-space: nowrap; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
