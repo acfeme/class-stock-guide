@@ -299,7 +299,8 @@ section.chapter { padding-block: 88px 8px; scroll-margin-top: 56px; }
 
 /* 교사 도구 */
 .tools { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (min-width: 720px) { .tools { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 720px) { .tools { grid-template-columns: repeat(3, minmax(0, 1fr)); } .tools.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 960px) { .tools.four { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .tool { background: #fff; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
 .tool-ico { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-size: 24px; background: var(--ti, var(--accent-soft)); }
 .tool b { display: block; font-size: 17px; font-weight: 800; margin-top: 12px; }
@@ -626,10 +627,18 @@ footer { background: none; border-top: 1px solid var(--line); }
   <!-- 창구 -->
   <section class="chapter" id="counter">
     <div class="wrap">
-      <span class="kicker">3라운드 · 증권사 창구</span>
-      <h2>태블릿이 멈추면, 창구에 줄이 서요</h2>
-      <p class="intro">종이 주문서 → 학생 직원 → 15초 안에 체결</p>
-      <div class="body counter-layout">
+      <span class="kicker">3라운드 · 오프라인 학생 창구</span>
+      <h2>15분, 온라인 거래가 갑자기 막혀요</h2>
+      <p class="intro">태블릿 주문 정지 → 종이 주문서를 들고 오프라인 학생 창구로. 창구 담당 학생은 미리 정해 둬요.</p>
+      <h3 class="mini-h">왜 막을까요?</h3>
+      <div class="tools four">
+        <div class="tool"><div class="tool-ico" aria-hidden="true">🏦</div><b>증권사가 하는 일</b><p>주문을 대신 처리하는 과정을 직접 경험</p></div>
+        <div class="tool"><div class="tool-ico" aria-hidden="true">📝</div><b>주문서 단 3장</b><p>한 번 더 생각하고 신중하게 주문</p></div>
+        <div class="tool"><div class="tool-ico" aria-hidden="true">💸</div><b>수수료 2,000원</b><p>사람이 처리하니 태블릿의 두 배</p></div>
+        <div class="tool"><div class="tool-ico" aria-hidden="true">👥</div><b>모두에게 역할</b><p>창구 담당 학생도 수업의 주인공</p></div>
+      </div>
+      <h3 class="mini-h">창구에서는 이렇게</h3>
+      <div class="counter-layout">
         <div class="pipe">
           <div class="pipe-step"><span class="pi">🔢</span><b>팀 번호</b></div>
           <div class="pipe-step"><span class="pi">🔑</span><b>비밀번호</b></div>
@@ -911,7 +920,7 @@ footer { background: none; border-top: 1px solid var(--line); }
   const ROUNDS = [
     { name: '1라운드 · 태블릿 거래', time: '0~8분', text: '개장! 100만 원을 어디에 나눠 담을까요?', facts: [['주문', '📱 태블릿'], ['수수료', '1,000원'], ['속보', '3건']] },
     { name: '2라운드 · 정보 카드', time: '8~15분', text: '카드를 읽고 믿을지 정하고, 퀴즈로 쿠폰을 받아요.', facts: [['주문', '📱 태블릿'], ['쿠폰', '+20,000원'], ['속보', '3건']] },
-    { name: '3라운드 · 창구 주문만', time: '15~25분', text: '태블릿 정지! 종이 주문서를 들고 창구로.', facts: [['주문', '🏦 창구'], ['수수료', '2,000원'], ['속보', '3건']] },
+    { name: '3라운드 · 창구 주문만', time: '15~25분', text: '온라인 거래가 갑자기 정지! 종이 주문서를 들고 오프라인 학생 창구로.', facts: [['주문', '🏦 창구'], ['수수료', '2,000원'], ['속보', '3건']] },
     { name: '4라운드 · 마지막 승부', time: '25~32분', text: '다시 태블릿. 32분에 자동 마감돼요.', facts: [['주문', '📱 태블릿'], ['마감', '32분'], ['속보', '3건']] },
   ];
   const tlDetail = document.getElementById('tlDetail');
