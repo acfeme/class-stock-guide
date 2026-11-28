@@ -19,7 +19,8 @@ video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: contai
 .big:hover { transform: translateY(-2px); }
 #bar { position: fixed; left: 50%; top: 24px; transform: translateX(-50%); display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 999px; background: rgba(10,15,31,.88); border: 1px solid var(--line); z-index: 6; transition: opacity .4s; }
 #bar.hide { opacity: 0; pointer-events: none; }
-#bar button { font: inherit; font-size: 20px; font-weight: 800; border: 0; border-radius: 999px; padding: 12px 26px; cursor: pointer; color: #fff; background: var(--panel); }
+#bar button { font: inherit; font-size: 20px; font-weight: 800; border: 0; border-radius: 999px; padding: 12px 26px; cursor: pointer; color: #fff; background: var(--panel); white-space: nowrap; flex: none; }
+#bar { width: max-content; max-width: calc(100vw - 32px); }
 #bar #stop { background: var(--red); }
 #bar #loopState { font-size: 17px; color: var(--gold); padding: 0 10px; white-space: nowrap; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
