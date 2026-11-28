@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>우리 반 증권거래소 · 3분 체험</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap">
+<style>
+/* 3분 체험판: 서버 없이 이 기기 안에서만 돌아가는 짧은 모의 주식. 실제 수업 시나리오(속보·정보 카드·퀴즈)는 쓰지 않는다. */
+:root {
+  --bg: #eef1f8; --card: #fff; --soft: #f5f7fc; --ink: #131a2e; --muted: #5d6680; --line: #dde2ee;
+  --navy: #1f3a8a; --navy-2: #172c6b; --gold: #ffd43b; --up: #e03131; --down: #1971c2; --green: #2f9e44; --warn: #fff3bf;
+  --c-NYAM: #e8590c; --c-BOLT: #f0b400; --c-PIXEL: #7048e8; --c-GREEN: #2f9e44; --c-SKY: #1c7ed6; --c-TUNT: #d6336c;
+  --display: 'Black Han Sans', 'Malgun Gothic', sans-serif;
+  --body: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  --num: 'Segoe UI', 'Roboto', 'Apple SD Gothic Neo', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.5; word-break: keep-all; min-height: 100dvh; }
+button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulation; }
+.num { font-family: var(--num); font-variant-numeric: tabular-nums; }
+.up { color: var(--up); } .down { color: var(--down); } .flat { color: var(--muted); }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 max(14px, env(safe-area-inset-left)) 0 max(14px, env(safe-area-inset-right)); }
+
+/* ───── 시작·결과 화면 (어두운 무대) ───── */
+.stage { min-height: 100dvh; display: grid; place-items: center; padding: 28px 18px calc(28px + env(safe-area-inset-bottom)); text-align: center; color: #edf0f8;
+  background: radial-gradient(800px 500px at 80% 10%, #1c2c66, transparent 70%), radial-gradient(700px 500px at 0% 100%, #22163f, transparent 70%), #0a0f1f; }
+.stage .inner { width: 100%; max-width: 640px; }
+.kicker { display: inline-block; font-size: 15px; font-weight: 800; color: var(--gold); letter-spacing: .12em; }
+.title { font-family: var(--display); font-size: clamp(40px, 10vw, 74px); line-height: 1.1; margin-top: 12px; }
+.title span { color: var(--gold); }
+.lead { color: #c8cfe3; font-size: 18px; margin-top: 14px; }
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 26px; }
+.facts div { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: 16px; padding: 14px 8px; }
+.facts b { display: block; font-family: var(--display); font-size: 26px; color: #fff; }
+.facts span { font-size: 14px; color: #aab3cc; }
+.notice { margin-top: 18px; font-size: 15px; color: #aab3cc; background: rgba(255,255,255,.05); border-radius: 12px; padding: 10px 14px; }
+.cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px; min-height: 60px; padding: 0 40px; border-radius: 999px; border: 0; background: var(--gold); color: #0a0f1f; font-size: 21px; font-weight: 900; box-shadow: 0 12px 30px rgba(255,212,59,.3); }
+.cta:active { transform: scale(.97); }
+.ghost { background: rgba(255,255,255,.1); color: #fff; box-shadow: none; border: 1px solid rgba(255,255,255,.2); }
+.nameSlot { margin-top: 22px; font-size: 22px; font-weight: 800; color: #fff; min-height: 34px; }
+.nameSlot small { display: block; font-size: 14px; color: #aab3cc; font-weight: 600; }
+
+/* ───── 거래 화면 ───── */
+#game { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+.top { position: sticky; top: 0; z-index: 20; background: var(--navy); color: #fff; box-shadow: 0 4px 14px rgba(20,30,70,.25); padding-top: env(safe-area-inset-top); }
+.top .wrap { display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; align-items: center; padding-top: 10px; padding-bottom: 10px; }
+.me { font-weight: 800; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.clock { text-align: right; }
+.clock b { font-family: var(--num); font-size: 26px; font-weight: 800; }
+.clock small { display: block; font-size: 13px; opacity: .8; }
+.money { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.money div { background: rgba(255,255,255,.08); border-radius: 10px; padding: 6px 8px; min-width: 0; }
+.money span { display: block; font-size: 12px; opacity: .75; }
+.money b { font-family: var(--num); font-size: clamp(14px, 3.8vw, 20px); font-weight: 800; white-space: nowrap; }
+.phase { grid-column: 1 / -1; height: 6px; background: rgba(255,255,255,.15); border-radius: 6px; overflow: hidden; }
+.phase i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #4ea5ff, var(--gold)); }
+
+.newsbar { display: flex; gap: 10px; align-items: center; margin-top: 12px; background: #141a2e; color: #fff; border-radius: 14px; padding: 10px 14px; min-height: 52px; }
+.newsbar .tag { flex: none; background: var(--up); color: #fff; font-weight: 900; font-size: 14px; padding: 3px 10px; border-radius: 8px; }
+.newsbar p { font-size: 15px; font-weight: 700; line-height: 1.35; }
+.newsbar.empty .tag { background: #5d6680; }
+.halt { margin-top: 12px; background: var(--warn); border: 2px solid #f5c400; border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.halt b { font-size: 17px; }
+.halt button { border: 0; border-radius: 12px; background: var(--navy); color: #fff; font-weight: 900; font-size: 17px; min-height: 50px; padding: 0 18px; }
+.halt button:disabled { opacity: .45; }
+
+.grid { display: grid; gap: 14px; margin-top: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 860px) { .grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; } }
+.cos { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 560px) { .cos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.co { position: relative; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px 10px; display: grid; grid-template-columns: auto 1fr auto; gap: 0 10px; align-items: center; overflow: hidden; min-height: 96px; }
+.co::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 4px; background: var(--c); }
+.co .ic { font-size: 30px; grid-row: span 2; }
+.co .nm { font-weight: 800; font-size: 17px; }
+.co .sec { font-size: 13px; color: var(--muted); grid-column: 2; }
+.co .pr { grid-row: 1 / span 2; grid-column: 3; text-align: right; }
+.co .pr b { display: block; font-family: var(--num); font-size: 20px; font-weight: 800; }
+.co .pr small { font-family: var(--num); font-size: 14px; font-weight: 700; }
+.co svg { grid-column: 1 / -1; width: 100%; height: 30px; margin-top: 6px; display: block; }
+.co .held { display: inline-block; vertical-align: 2px; margin-left: 4px; font-size: 13px; font-weight: 800; color: var(--navy); background: #e2e8f8; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.co.flash-up { animation: fu 1s ease-out; } .co.flash-down { animation: fd 1s ease-out; }
+@keyframes fu { from { background: #ffe3e3; } to { background: var(--card); } }
+@keyframes fd { from { background: #dbe9fb; } to { background: var(--card); } }
+.co:disabled { cursor: default; }
+
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+.panel h3 { font-size: 17px; font-weight: 900; display: flex; justify-content: space-between; align-items: center; }
+.panel h3 small { font-size: 13px; color: var(--muted); font-weight: 700; }
+.hold { margin-top: 8px; display: grid; gap: 6px; }
+.hold .row { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; font-size: 15px; padding: 8px 0; border-top: 1px dashed var(--line); }
+.hold .row:first-child { border-top: 0; }
+.hold .empty { color: var(--muted); font-size: 15px; padding: 6px 0; }
+.log { margin-top: 8px; display: grid; gap: 4px; font-size: 14px; color: var(--muted); max-height: 220px; overflow: auto; }
+.rule { font-size: 14px; color: var(--muted); margin-top: 8px; }
+
+/* ───── 아래에서 올라오는 창 ───── */
+.sheet-back { position: fixed; inset: 0; background: rgba(10,15,31,.55); z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
+@media (min-width: 700px) { .sheet-back { align-items: center; } }
+.sheet { width: 100%; max-width: 520px; background: var(--card); border-radius: 22px 22px 0 0; padding: 20px 18px calc(18px + env(safe-area-inset-bottom)); max-height: 92dvh; overflow: auto; animation: up .25s ease-out; }
+@media (min-width: 700px) { .sheet { border-radius: 22px; } }
+@keyframes up { from { transform: translateY(40px); opacity: 0; } }
+.sheet h2 { font-size: 21px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+.sheet .sub { color: var(--muted); font-size: 15px; margin-top: 2px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+.seg button { min-height: 52px; border-radius: 12px; border: 2px solid var(--line); background: var(--soft); font-weight: 900; font-size: 18px; }
+.seg button.on.buy { background: var(--up); border-color: var(--up); color: #fff; }
+.seg button.on.sell { background: var(--down); border-color: var(--down); color: #fff; }
+.qty { margin-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--soft); border-radius: 14px; padding: 10px 14px; }
+.qty b { font-family: var(--num); font-size: 34px; font-weight: 800; }
+.chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+.chips button { min-height: 48px; border-radius: 12px; border: 1px solid var(--line); background: #fff; font-weight: 800; font-size: 16px; }
+.calc { margin-top: 12px; font-size: 15px; display: grid; gap: 4px; }
+.calc div { display: flex; justify-content: space-between; }
+.calc b { font-family: var(--num); }
+.actions { display: grid; grid-template-columns: 1fr 2fr; gap: 8px; margin-top: 16px; }
+.actions button { min-height: 56px; border-radius: 14px; border: 1px solid var(--line); background: #fff; font-weight: 900; font-size: 18px; }
+.actions .ok { border: 0; color: #fff; background: var(--navy); }
+.actions .ok.buy { background: var(--up); } .actions .ok.sell { background: var(--down); }
+.actions button:disabled { opacity: .4; }
+.msg { margin-top: 10px; font-weight: 800; font-size: 16px; min-height: 24px; }
+.msg.bad { color: var(--up); } .msg.good { color: var(--green); }
+
+/* 정보 카드 */
+.icard { margin-top: 12px; border: 2px solid var(--line); border-radius: 16px; padding: 14px; }
+.icard .src { font-size: 14px; font-weight: 800; color: var(--muted); }
+.icard p { font-size: 18px; font-weight: 800; margin-top: 4px; }
+.icard .seg button.on { background: var(--navy); border-color: var(--navy); color: #fff; }
+.quiz { margin-top: 14px; background: var(--soft); border-radius: 16px; padding: 14px; }
+.quiz p { font-weight: 800; }
+.quiz .seg button.right { background: var(--green); border-color: var(--green); color: #fff; }
+.quiz .seg button.wrong { background: #ffe3e3; border-color: var(--up); }
+
+/* 창구 */
+.steps { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+.steps span { font-size: 13px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: #e2e8f8; color: var(--navy); }
+.steps span.on { background: var(--navy); color: #fff; }
+.pick { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 12px; }
+@media (min-width: 420px) { .pick { grid-template-columns: repeat(3, 1fr); } }
+.pick button { min-height: 60px; border-radius: 14px; border: 2px solid var(--line); background: #fff; font-weight: 800; font-size: 15px; display: grid; place-items: center; line-height: 1.25; padding: 6px; }
+.pick button small { font-family: var(--num); color: var(--muted); font-weight: 700; }
+.clerk { display: flex; gap: 12px; align-items: center; margin-top: 12px; background: #e6f4ea; border-radius: 14px; padding: 12px; font-weight: 700; font-size: 15px; }
+.clerk i { font-style: normal; font-size: 34px; }
+.spin { width: 22px; height: 22px; border-radius: 50%; border: 3px solid #cfd6ea; border-top-color: var(--navy); animation: sp 1s linear infinite; display: inline-block; vertical-align: -5px; }
+@keyframes sp { to { transform: rotate(360deg); } }
+
+/* 속보 팝업 */
+.pop { position: fixed; left: 50%; top: calc(110px + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 60; width: min(92vw, 560px); background: var(--up); color: #fff; border-radius: 18px; padding: 16px 18px; box-shadow: 0 18px 40px rgba(224,49,49,.35); animation: pop .35s cubic-bezier(.2,1.5,.4,1); }
+@keyframes pop { from { transform: translateX(-50%) scale(.7); opacity: 0; } }
+.pop .t { font-size: 14px; font-weight: 900; letter-spacing: .1em; opacity: .9; }
+.pop .h { font-size: 20px; font-weight: 900; line-height: 1.3; margin-top: 4px; }
+.pop .fx { font-family: var(--num); font-weight: 800; margin-top: 6px; font-size: 17px; }
+.pop, .toast { pointer-events: none; }
+.toast { position: fixed; left: 50%; top: calc(14px + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 70; max-width: calc(100vw - 28px); text-overflow: ellipsis; overflow: hidden; background: #141a2e; color: #fff; padding: 12px 20px; border-radius: 999px; font-weight: 800; font-size: 16px; box-shadow: 0 10px 24px rgba(0,0,0,.25); white-space: nowrap; }
+.count { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; pointer-events: none; font-family: var(--display); font-size: 40vmin; color: rgba(31,58,138,.85); text-shadow: 0 0 40px #fff; }
+
+/* 결과 */
+.badge { width: 140px; height: 140px; margin: 18px auto 0; border-radius: 50%; display: grid; place-items: center; font-size: 76px; background: radial-gradient(circle at 30% 25%, #fff6, transparent 60%), linear-gradient(135deg, #ffd43b, #ff922b); box-shadow: 0 0 0 8px rgba(255,212,59,.18), 0 20px 50px rgba(255,146,43,.35); }
+.type { font-family: var(--display); font-size: clamp(34px, 8vw, 52px); margin-top: 14px; color: var(--gold); }
+.typeDesc { font-size: 18px; color: #dfe4f4; margin-top: 8px; }
+.ret { font-family: var(--num); font-size: clamp(40px, 10vw, 60px); font-weight: 900; margin-top: 16px; }
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 18px; text-align: left; }
+@media (min-width: 560px) { .stats { grid-template-columns: repeat(3, 1fr); } }
+.stats div { background: rgba(255,255,255,.07); border-radius: 14px; padding: 10px 12px; }
+.stats span { display: block; font-size: 13px; color: #aab3cc; }
+.stats b { font-size: 18px; color: #fff; }
+.tips { margin-top: 16px; text-align: left; background: rgba(255,255,255,.06); border-radius: 16px; padding: 14px 16px; font-size: 16px; color: #dfe4f4; display: grid; gap: 6px; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 18px; }
+.links a, .links button { display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; border-radius: 999px; font-weight: 800; font-size: 17px; text-decoration: none; }
+.links .main { background: var(--gold); color: #0a0f1f; border: 0; }
+.links a { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+.real { margin-top: 18px; font-size: 15px; color: #aab3cc; }
+.conf { position: fixed; top: -20px; width: 10px; height: 16px; border-radius: 3px; z-index: 90; pointer-events: none; animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+
+<!-- 시작 -->
+<section class="stage" id="intro">
+  <div class="inner">
+    <span class="kicker">3분 체험판</span>
+    <h1 class="title">우리 반 <span>증권거래소</span></h1>
+    <p class="lead">가상 돈 100만 원으로 2분 30초 동안 주식을 사고팔아 보세요. 속보, 정보 카드, 갑작스러운 거래 정지까지 짧게 담았어요.</p>
+    <div class="facts">
+      <div><b>100만</b><span>시작 가상 돈</span></div>
+      <div><b>2:30</b><span>장 시간</span></div>
+      <div><b>6개</b><span>상장 기업</span></div>
+    </div>
+    <div class="nameSlot" id="nameSlot"><small>오늘의 투자자 이름</small><span id="nameText">???</span></div>
+    <button class="cta" id="startBtn" type="button">▶ 체험 시작</button>
+    <p class="notice">🔒 서버 없이 이 기기 안에서만 돌아가요. <b>순위·랭킹은 표시하지 않고</b>, 끝나면 나의 <b>투자 성향</b>을 알려 드려요.</p>
+  </div>
+</section>
+
+<!-- 거래 -->
+<section id="game" hidden>
+  <header class="top">
+    <div class="wrap">
+      <div class="me" id="meName">🧑 투자자</div>
+      <div class="clock"><small id="phaseName">장 진행 중</small><b id="clock">2:30</b></div>
+      <div class="money">
+        <div><span>현금</span><b class="num" id="cash">1,000,000</b></div>
+        <div><span>주식</span><b class="num" id="stock">0</b></div>
+        <div><span>총자산</span><b class="num" id="total">1,000,000</b></div>
+        <div><span>수익률</span><b class="num" id="ret">0.00%</b></div>
+      </div>
+      <div class="phase"><i id="bar"></i></div>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="newsbar empty" id="newsbar"><span class="tag">속보</span><p id="newsText">곧 첫 속보가 나와요. 회사 카드를 눌러 사고팔 수 있어요.</p></div>
+    <div class="halt" id="halt" hidden><b>⛔ 온라인 거래 정지! 창구에서만 주문할 수 있어요</b><button type="button" id="goCounter">🏦 창구로 가기 (주문서 1장)</button></div>
+    <div class="grid">
+      <div class="cos" id="cos"></div>
+      <div style="display:grid;gap:14px">
+        <div class="panel"><h3>📦 내 주식 <small id="feeSum">낸 수수료 0원</small></h3><div class="hold" id="hold"></div></div>
+        <div class="panel"><h3>📝 거래 기록</h3><div class="log" id="log"><div>아직 거래가 없어요</div></div>
+          <p class="rule">수수료: 앱 주문 1,000원 · 창구 주문 2,000원 · 같은 흐름의 주가가 모든 체험자에게 똑같이 나와요</p></div>
+      </div>
+    </div>
+  </main>
+</section>
+
+<!-- 결과 -->
+<section class="stage" id="result" hidden>
+  <div class="inner">
+    <span class="kicker">장 마감 · 나의 투자 성향</span>
+    <div class="badge" id="rIcon">🐂</div>
+    <div class="type" id="rType">근거파 투자자</div>
+    <p class="typeDesc" id="rDesc"></p>
+    <div class="ret num" id="rRet">+0.00%</div>
+    <div class="stats" id="rStats"></div>
+    <div class="tips" id="rTips"></div>
+    <p class="notice">🔒 체험판은 서버 없이 이 기기에서만 계산해요. <b>순위·랭킹은 없어요.</b> 기록도 저장하지 않아요.</p>
+    <div class="links">
+      <button class="main" id="again" type="button">🔄 다시 하기</button>
+      <a href="https://acfeme.github.io/class-stock-guide/play.html?v=4" target="_blank" rel="noopener">🎬 시연 영상</a>
+      <a href="https://acfeme.github.io/class-stock-guide/" target="_blank" rel="noopener">📖 안내 페이지</a>
+    </div>
+    <p class="real">실제 수업은 <b>32분 · 4라운드 · 팀 대항</b>으로, 교실 TV 전광판과 학생 창구 직원이 함께해요.</p>
+  </div>
+</section>
+
+<div id="layer"></div>
+
+<script>
+(() => {
+  // ───── 설정 (모두 체험 전용 내용. 실제 수업 시나리오와 다름) ─────
+  const P = new URLSearchParams(location.search);
+  const SPEED = Math.max(1, Math.min(30, +P.get('speed') || 1)); // 시험용 빨리 감기 (?speed=10)
+  const DURATION = 150;              // 장 시간(초)
+  const HALT = [60, 95];             // 온라인 거래 정지 구간
+  const CARD_AT = 36;                // 정보 카드 시각
+  const TICK = 3;                    // 잔잔한 변동 간격(초)
+  const START_CASH = 1000000, FEE_APP = 1000, FEE_COUNTER = 2000, COUPON = 20000;
+  const COS = [
+    { code: 'NYAM', name: '냠냠푸드', sector: '식품·간편식', icon: '🍚', start: 10000 },
+    { code: 'BOLT', name: '번개배터리', sector: '전기차 배터리', icon: '🔋', start: 20000 },
+    { code: 'PIXEL', name: '픽셀게임즈', sector: '게임', icon: '🎮', start: 15000 },
+    { code: 'GREEN', name: '그린에너지', sector: '태양광 발전', icon: '☀️', start: 8000 },
+    { code: 'SKY', name: '하늘항공', sector: '항공·여행', icon: '✈️', start: 12000 },
+    { code: 'TUNT', name: '튼튼제약', sector: '제약·바이오', icon: '💊', start: 25000 },
+  ];
+  const NEWS = [
+    { at: 3, title: '[체험] 냠냠푸드, 전국 학교 급식에 컵밥 납품', fx: { NYAM: 8 } },
+    { at: 22, title: '[체험] 태풍 북상… 하늘항공 항공편 무더기 결항', fx: { SKY: -10 } },
+    { at: 48, title: '[체험] 번개배터리, 10분 충전 배터리 개발 성공', fx: { BOLT: 7 } },
+    { at: 75, title: '[체험] 독감 유행… 튼튼제약 감기약 주문 폭주', fx: { TUNT: 12 } },
+    { at: 110, title: '[체험] 그린에너지, 학교 옥상 태양광 1,000곳 계약 확정', fx: { GREEN: 14 } },
+    { at: 128, title: '[체험] 픽셀게임즈 신작, 출시 무기한 연기', fx: { PIXEL: -15 } },
+  ];
+  const CARDS = [
+    { id: 'a', src: '📰 ○○일보 경제면', text: '그린에너지, 학교 옥상 태양광 1,000곳 설치 계약 앞둬', truth: '진짜', why: '언론사 취재 기사 + 구체적인 숫자 → 나중에 속보로 확인돼요' },
+    { id: 'b', src: '💬 익명 단톡방', text: '픽셀게임즈 곧 두 배 간다!! 무조건 풀매수!!', truth: '가짜', why: '출처를 알 수 없고 "무조건" 같은 근거 없는 확신뿐이에요' },
+  ];
+  const QUIZ = { q: '여러 회사에 돈을 나누어 투자하면 위험은 어떻게 될까요?', choices: ['커진다', '줄어든다'], answer: '줄어든다' };
+  const ADJ = ['용기있는', '똑똑한', '신중한', '재빠른', '느긋한', '반짝이는', '든든한', '호기심많은', '침착한', '씩씩한'];
+  const ANI = ['돌고래', '수달', '부엉이', '호랑이', '판다', '고슴도치', '여우', '펭귄', '다람쥐', '거북이'];
+
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => Math.round(n).toLocaleString('ko-KR');
+  const pct = (p) => (p > 0 ? '+' : '') + p.toFixed(2) + '%';
+  const cls = (p) => (p > 0.0001 ? 'up' : p < -0.0001 ? 'down' : 'flat');
+
+  // ───── 결정적 난수 (모든 체험자에게 같은 주가 흐름) ─────
+  function mulberry32(a) { return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function hash(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  const noise = (tick, code) => (mulberry32((Math.imul(20261128, 0x9e3779b1) ^ Math.imul(tick + 1, 0x85ebca6b) ^ hash(code)) >>> 0)() * 2 - 1) * 0.45;
+  const applyPct = (price, p) => Math.max(1000, Math.round(price * (1 + p / 100) / 10) * 10);
+
+  // ───── 상태 ─────
+  let S;
+  function fresh() {
+    return {
+      name: '', t: 0, running: false, ended: false, lastReal: 0,
+      prices: Object.fromEntries(COS.map((c) => [c.code, c.start])),
+      prev: Object.fromEntries(COS.map((c) => [c.code, c.start])),
+      hist: Object.fromEntries(COS.map((c) => [c.code, [c.start]])),
+      tick: 0, newsIdx: 0, cardShown: false,
+      cash: START_CASH, hold: {}, fees: 0, trades: [], coupon: 0,
+      cardPicks: {}, quizOk: null, counterUsed: false, maxShare: 0,
+      lastNews: null,
+    };
+  }
+
+  // ───── 소리·진동 ─────
+  let ac = null;
+  function beep() {
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      const now = ac.currentTime;
+      [0, 0.16].forEach((d) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'square'; o.frequency.value = 880; g.gain.setValueAtTime(0.06, now + d); g.gain.exponentialRampToValueAtTime(0.0001, now + d + 0.13); o.connect(g).connect(ac.destination); o.start(now + d); o.stop(now + d + 0.14); });
+    } catch (_) {}
+    try { navigator.vibrate && navigator.vibrate([120, 60, 120]); } catch (_) {}
+  }
+
+  // ───── 화면: 시작 ─────
+  function rollName() {
+    const r = () => Math.floor(Math.random() * 10);
+    let n = 0; const el = $('nameText');
+    const iv = setInterval(() => { el.textContent = `${ADJ[r()]} ${ANI[r()]} ${10 + Math.floor(Math.random() * 90)}`; if (++n > 12) { clearInterval(iv); S.name = el.textContent; } }, 70);
+  }
+  function showIntro() { S = fresh(); $('intro').hidden = false; $('game').hidden = true; $('result').hidden = true; rollName(); window.scrollTo(0, 0); }
+
+  // ───── 화면: 거래 ─────
+  function buildCos() {
+    $('cos').innerHTML = COS.map((c) => `<button class="co" id="co-${c.code}" type="button" style="--c:var(--c-${c.code})" aria-label="${c.name} 사고팔기">
+      <span class="ic" aria-hidden="true">${c.icon}</span><span class="nm">${c.name} <span class="held" id="h-${c.code}" hidden></span></span><span class="sec">${c.sector}</span>
+      <span class="pr"><b class="num" id="p-${c.code}">${fmt(c.start)}</b><small class="num" id="d-${c.code}">0.00%</small></span>
+      <svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><polyline id="l-${c.code}" fill="none" stroke="var(--c-${c.code})" stroke-width="2" vector-effect="non-scaling-stroke" points=""/></svg></button>`).join('');
+    COS.forEach((c) => $('co-' + c.code).addEventListener('click', () => openTrade(c.code, 'app')));
+  }
+  const stockValue = () => COS.reduce((s, c) => s + (S.hold[c.code]?.qty || 0) * S.prices[c.code], 0);
+  const totalAsset = () => S.cash + stockValue();
+  function render() {
+    const stock = stockValue(), total = S.cash + stock, r = (total / START_CASH - 1) * 100;
+    $('cash').textContent = fmt(S.cash); $('stock').textContent = fmt(stock); $('total').textContent = fmt(total);
+    $('ret').textContent = pct(r); $('ret').style.color = r > 0 ? '#ff8787' : r < 0 ? '#74c0fc' : '#fff';
+    const left = Math.max(0, DURATION - S.t);
+    $('clock').textContent = `${Math.floor(left / 60)}:${String(Math.floor(left % 60)).padStart(2, '0')}`;
+    $('bar').style.width = (S.t / DURATION * 100) + '%';
+    const halted = isHalted();
+    $('phaseName').textContent = S.ended ? '장 마감' : halted ? '⛔ 거래 정지 · 창구만' : '장 진행 중';
+    $('halt').hidden = !halted;
+    $('goCounter').disabled = S.counterUsed;
+    $('goCounter').textContent = S.counterUsed ? '✅ 주문서를 다 썼어요' : '🏦 창구로 가기 (주문서 1장)';
+    for (const c of COS) {
+      const p = S.prices[c.code], d = (p / c.start - 1) * 100, h = S.hold[c.code]?.qty || 0;
+      $('p-' + c.code).textContent = fmt(p);
+      const dd = $('d-' + c.code); dd.textContent = (d > 0 ? '▲' : d < 0 ? '▼' : '') + Math.abs(d).toFixed(2) + '%'; dd.className = 'num ' + cls(d);
+      const hs = S.hist[c.code], lo = Math.min(...hs, c.start * .97), hi = Math.max(...hs, c.start * 1.03), n = Math.max(DURATION / TICK, hs.length);
+      $('l-' + c.code).setAttribute('points', hs.map((v, i) => `${(i / n * 100).toFixed(1)},${(28 - (v - lo) / (hi - lo) * 26).toFixed(1)}`).join(' '));
+      const he = $('h-' + c.code); he.hidden = !h; he.textContent = h + '주';
+    }
+    const rows = COS.filter((c) => S.hold[c.code]?.qty).map((c) => { const h = S.hold[c.code], gain = (S.prices[c.code] - h.avg) * h.qty;
+      return `<div class="row"><span>${c.icon} ${c.name} <b>${h.qty}주</b></span><span class="num">${fmt(S.prices[c.code] * h.qty)}원</span><span class="num ${cls(gain)}">${gain > 0 ? '+' : ''}${fmt(gain)}</span></div>`; });
+    $('hold').innerHTML = rows.length ? rows.join('') : '<div class="empty">아직 가진 주식이 없어요. 회사 카드를 눌러 사 보세요.</div>';
+    $('feeSum').textContent = `낸 수수료 ${fmt(S.fees)}원`;
+  }
+  const isHalted = () => S.t >= HALT[0] && S.t < HALT[1] && !S.ended;
+
+  // ───── 시간 흐름 ─────
+  function loop(now) {
+    if (!S.running) return;
+    const dt = Math.min(0.5, (now - S.lastReal) / 1000) * SPEED; S.lastReal = now;
+    const before = S.t; S.t = Math.min(DURATION, S.t + dt);
+    // 같은 시각이면 속보 먼저, 그다음 잔잔한 변동
+    while (S.newsIdx < NEWS.length && NEWS[S.newsIdx].at <= S.t) fireNews(NEWS[S.newsIdx++]);
+    while ((S.tick + 1) * TICK <= S.t && (S.tick + 1) * TICK < DURATION) {
+      S.tick++; S.prev = { ...S.prices };
+      for (const c of COS) S.prices[c.code] = applyPct(S.prices[c.code], noise(S.tick, c.code));
+      for (const c of COS) S.hist[c.code].push(S.prices[c.code]);
+      flashTiles();
+    }
+    if (!S.cardShown && S.t >= CARD_AT) { S.cardShown = true; openCard(); }
+    if (before < HALT[0] && S.t >= HALT[0]) { closeSheet('app'); toast('⛔ 온라인 거래가 갑자기 멈췄어요!'); beep(); }
+    if (before < HALT[1] && S.t >= HALT[1]) { closeSheet('counter'); toast('✅ 온라인 거래가 다시 열렸어요'); }
+    const left = DURATION - S.t;
+    if (left <= 3.999 && left > 0) bigCount(Math.ceil(left));
+    trackShare();
+    render();
+    if (S.t >= DURATION) return finish();
+    requestAnimationFrame(loop);
+  }
+  function fireNews(n) {
+    S.prev = { ...S.prices };
+    for (const [code, p] of Object.entries(n.fx)) S.prices[code] = applyPct(S.prices[code], p);
+    for (const c of COS) S.hist[c.code].push(S.prices[c.code]);
+    S.lastNews = { ...n, t: S.t };
+    $('newsbar').classList.remove('empty'); $('newsText').textContent = n.title;
+    const fx = Object.entries(n.fx).map(([code, p]) => { const c = COS.find((x) => x.code === code); return `${c.icon} ${c.name} ${p > 0 ? '▲' : '▼'}${Math.abs(p)}%`; }).join('  ');
+    const el = document.createElement('div'); el.className = 'pop'; el.setAttribute('role', 'alert');
+    el.innerHTML = `<div class="t">📢 속보</div><div class="h">${n.title}</div><div class="fx">${fx}</div>`;
+    $('layer').appendChild(el); setTimeout(() => el.remove(), 3200);
+    beep(); flashTiles();
+  }
+  function flashTiles() {
+    for (const c of COS) {
+      const a = S.prev[c.code], b = S.prices[c.code]; if (a === b) continue;
+      const el = $('co-' + c.code); el.classList.remove('flash-up', 'flash-down'); void el.offsetWidth; el.classList.add(b > a ? 'flash-up' : 'flash-down');
+    }
+  }
+  function trackShare() { const t = totalAsset(); for (const c of COS) { const v = (S.hold[c.code]?.qty || 0) * S.prices[c.code]; S.maxShare = Math.max(S.maxShare, v / t); } }
+  let lastCount = 0;
+  function bigCount(n) { if (n === lastCount) return; lastCount = n; const el = document.createElement('div'); el.className = 'count'; el.textContent = n; $('layer').appendChild(el); setTimeout(() => el.remove(), 900); }
+  function toast(t) { const el = document.createElement('div'); el.className = 'toast'; el.textContent = t; $('layer').appendChild(el); setTimeout(() => el.remove(), 2600); }
+
+  // ───── 거래 (앱 주문 / 창구 주문 공통) ─────
+  function doTrade(code, side, qty, channel) {
+    const price = S.prices[code], fee = channel === 'counter' ? FEE_COUNTER : FEE_APP;
+    if (!qty || qty < 1) return '수량을 정해 주세요';
+    if (side === 'buy') {
+      if (price * qty + fee > S.cash) return '현금이 부족해요';
+      const h = S.hold[code] || { qty: 0, avg: 0 };
+      h.avg = (h.avg * h.qty + price * qty) / (h.qty + qty); h.qty += qty; S.hold[code] = h; S.cash -= price * qty + fee;
+    } else {
+      const h = S.hold[code]; if (!h || h.qty < qty) return '가진 주식이 부족해요';
+      h.qty -= qty; if (!h.qty) h.avg = 0; S.cash += price * qty - fee;
+    }
+    S.fees += fee;
+    const sinceNews = S.lastNews ? S.t - S.lastNews.t : 999;
+    const newsDir = S.lastNews && S.lastNews.fx[code] != null ? Math.sign(S.lastNews.fx[code]) : 0;
+    S.trades.push({ t: S.t, code, side, qty, price, fee, channel, onNews: sinceNews <= 20 && newsDir !== 0 && ((side === 'buy' && newsDir > 0) || (side === 'sell' && newsDir < 0)) });
+    const c = COS.find((x) => x.code === code);
+    const log = $('log'); if (S.trades.length === 1) log.innerHTML = '';
+    log.insertAdjacentHTML('afterbegin', `<div>${Math.floor(S.t / 60)}:${String(Math.floor(S.t % 60)).padStart(2, '0')} · ${channel === 'counter' ? '🏦 ' : ''}${c.icon} ${c.name} ${qty}주 <b class="${side === 'buy' ? 'up' : 'down'}">${side === 'buy' ? '매수' : '매도'}</b> · ${fmt(price)}원</div>`);
+    trackShare(); render();
+    return null;
+  }
+
+  // ───── 아래에서 올라오는 창 ─────
+  let sheetKind = null;
+  function openSheet(kind, html, onMount) {
+    closeSheet();
+    sheetKind = kind;
+    const back = document.createElement('div'); back.className = 'sheet-back'; back.id = 'sheetBack';
+    back.innerHTML = `<div class="sheet" role="dialog" aria-modal="true">${html}</div>`;
+    back.addEventListener('click', (e) => { if (e.target === back && kind !== 'card') closeSheet(); });
+    $('layer').appendChild(back); onMount(back.firstChild);
+  }
+  function closeSheet(onlyKind) { if (onlyKind && sheetKind !== onlyKind) return; $('sheetBack')?.remove(); sheetKind = null; }
+
+  function qtyPicker(box, code, getSide, onChange) {
+    let qty = 0;
+    const max = () => { const p = S.prices[code], fee = box.dataset.fee | 0; return getSide() === 'buy' ? Math.max(0, Math.floor((S.cash - fee) / p)) : (S.hold[code]?.qty || 0); };
+    const set = (q) => { qty = Math.max(0, Math.min(q, max())); box.querySelector('.qv').textContent = qty; onChange(qty); };
+    box.querySelectorAll('[data-add]').forEach((b) => b.addEventListener('click', () => set(qty + +b.dataset.add)));
+    box.querySelector('[data-max]').addEventListener('click', () => set(max()));
+    return { get: () => qty, reset: () => set(0), max };
+  }
+
+  function openTrade(code, channel) {
+    if (S.ended) return;
+    if (channel === 'app' && isHalted()) { toast('⛔ 지금은 거래 정지! 창구로 가세요'); return; }
+    const c = COS.find((x) => x.code === code);
+    let side = 'buy';
+    openSheet('app', `
+      <h2>${c.icon} ${c.name}</h2><p class="sub">지금 가격 <b class="num" id="sp">${fmt(S.prices[code])}</b>원 · 가진 주식 ${S.hold[code]?.qty || 0}주</p>
+      <div class="seg"><button type="button" class="buy on" data-side="buy">매수 (사기)</button><button type="button" class="sell" data-side="sell">매도 (팔기)</button></div>
+      <div class="qtybox" data-fee="${FEE_APP}"><div class="qty"><span>수량</span><b><span class="qv">0</span> 주</b></div>
+      <div class="chips"><button type="button" data-add="1">+1</button><button type="button" data-add="5">+5</button><button type="button" data-add="10">+10</button><button type="button" data-max>최대</button></div></div>
+      <div class="calc"><div><span>예상 금액</span><b id="amt">0원</b></div><div><span>수수료</span><b>${fmt(FEE_APP)}원</b></div></div>
+      <div class="msg" id="tmsg"></div>
+      <div class="actions"><button type="button" id="cancel">취소</button><button type="button" class="ok buy" id="ok" disabled>매수 확인</button></div>`, (box) => {
+      const ok = box.querySelector('#ok');
+      const upd = (q) => { box.querySelector('#amt').textContent = fmt(q * S.prices[code]) + '원'; ok.disabled = !q; };
+      const qp = qtyPicker(box.querySelector('.qtybox'), code, () => side, upd);
+      box.querySelectorAll('[data-side]').forEach((b) => b.addEventListener('click', () => {
+        side = b.dataset.side; box.querySelectorAll('[data-side]').forEach((x) => x.classList.toggle('on', x === b));
+        ok.className = 'ok ' + side; ok.textContent = side === 'buy' ? '매수 확인' : '매도 확인'; qp.reset();
+      }));
+      box.querySelector('#cancel').addEventListener('click', () => closeSheet());
+      ok.addEventListener('click', () => {
+        if (isHalted()) { closeSheet(); toast('⛔ 거래 정지! 창구로 가세요'); return; }
+        const err = doTrade(code, side, qp.get(), 'app');
+        if (err) { const m = box.querySelector('#tmsg'); m.textContent = '❌ ' + err; m.className = 'msg bad'; return; }
+        closeSheet(); toast(`✅ 체결! ${c.name} ${side === 'buy' ? '매수' : '매도'}`);
+      });
+    });
+  }
+
+  // 창구: 종목 → 매수/매도 → 수량 → 직원 처리
+  function openCounter() {
+    if (S.counterUsed || !isHalted()) return;
+    let code = null, side = null;
+    openSheet('counter', `
+      <h2>🏦 오프라인 학생 창구</h2><p class="sub">종이 주문서 1장으로 한 번만 주문할 수 있어요 · 수수료 ${fmt(FEE_COUNTER)}원</p>
+      <div class="steps"><span class="on" data-s="1">① 종목</span><span data-s="2">② 매수/매도</span><span data-s="3">③ 수량</span><span data-s="4">④ 체결</span></div>
+      <div id="cBody"></div>`, (box) => {
+      const body = box.querySelector('#cBody');
+      const step = (n) => box.querySelectorAll('.steps span').forEach((s) => s.classList.toggle('on', +s.dataset.s <= n));
+      const s1 = () => { step(1); body.innerHTML = `<div class="clerk"><i>🧑‍💼</i>창구 직원: "어떤 종목을 주문하시겠어요?"</div><div class="pick">${COS.map((c) => `<button type="button" data-code="${c.code}">${c.icon} ${c.name}<small>${fmt(S.prices[c.code])}원</small></button>`).join('')}</div>`;
+        body.querySelectorAll('[data-code]').forEach((b) => b.addEventListener('click', () => { code = b.dataset.code; s2(); })); };
+      const s2 = () => { step(2); const c = COS.find((x) => x.code === code); body.innerHTML = `<div class="clerk"><i>🧑‍💼</i>"${c.name}, 사시나요 파시나요?"</div><div class="seg"><button type="button" class="buy on" data-side="buy">매수 (사기)</button><button type="button" class="sell on" data-side="sell">매도 (팔기)</button></div><div class="actions" style="grid-template-columns:1fr"><button type="button" id="back1">← 종목 다시 고르기</button></div>`;
+        body.querySelectorAll('[data-side]').forEach((b) => b.addEventListener('click', () => { side = b.dataset.side; s3(); })); body.querySelector('#back1').addEventListener('click', s1); };
+      const s3 = () => { step(3); const c = COS.find((x) => x.code === code);
+        body.innerHTML = `<div class="clerk"><i>🧑‍💼</i>"${c.name} ${side === 'buy' ? '매수' : '매도'}, 몇 주 할까요?"</div>
+          <div class="qtybox" data-fee="${FEE_COUNTER}"><div class="qty"><span>수량</span><b><span class="qv">0</span> 주</b></div><div class="chips"><button type="button" data-add="1">+1</button><button type="button" data-add="5">+5</button><button type="button" data-add="10">+10</button><button type="button" data-max>최대</button></div></div>
+          <div class="calc"><div><span>예상 금액</span><b id="amt">0원</b></div><div><span>창구 수수료</span><b>${fmt(FEE_COUNTER)}원</b></div></div><div class="msg" id="cmsg"></div>
+          <div class="actions"><button type="button" id="back2">← 뒤로</button><button type="button" class="ok ${side}" id="ok" disabled>주문서 내기</button></div>`;
+        const ok = body.querySelector('#ok');
+        const qp = qtyPicker(body.querySelector('.qtybox'), code, () => side, (q) => { body.querySelector('#amt').textContent = fmt(q * S.prices[code]) + '원'; ok.disabled = !q; });
+        body.querySelector('#back2').addEventListener('click', s2);
+        ok.addEventListener('click', () => {
+          const q = qp.get(); step(4);
+          body.innerHTML = `<div class="clerk"><i>🧑‍💼</i><span><span class="spin"></span> 직원이 주문서를 확인하고 입력하는 중…</span></div>`;
+          setTimeout(() => {
+            if (!isHalted()) { body.innerHTML = `<div class="clerk" style="background:#ffe3e3"><i>🧑‍💼</i>"창구가 마감됐어요. 주문은 처리되지 않았어요."</div><div class="actions" style="grid-template-columns:1fr"><button type="button" class="ok" id="close">닫기</button></div>`; body.querySelector('#close').addEventListener('click', () => closeSheet()); return; }
+            const err = doTrade(code, side, q, 'counter');
+            if (err) { body.innerHTML = `<div class="clerk" style="background:#ffe3e3"><i>🧑‍💼</i>"거부: ${err}. 주문서는 돌려 드릴게요."</div><div class="actions" style="grid-template-columns:1fr"><button type="button" class="ok" id="close">다시 고르기</button></div>`; body.querySelector('#close').addEventListener('click', s1); return; }
+            S.counterUsed = true; render();
+            body.innerHTML = `<div class="clerk"><i>✅</i><span><b>체결!</b> ${COS.find((x) => x.code === code).name} ${q}주 ${side === 'buy' ? '매수' : '매도'} · 체결가 ${fmt(S.prices[code])}원<br>실제 수업에서는 <b>창구 담당 학생</b>이 이 일을 해요.</span></div><div class="actions" style="grid-template-columns:1fr"><button type="button" class="ok" id="close">닫기</button></div>`;
+            body.querySelector('#close').addEventListener('click', () => closeSheet());
+          }, 1300 / Math.max(1, SPEED / 3));
+        });
+      };
+      s1();
+    });
+  }
+
+  // 정보 카드 + 퀴즈 쿠폰 (장은 계속 흘러가요)
+  function openCard() {
+    openSheet('card', `
+      <h2>🃏 정보 카드 도착!</h2><p class="sub">믿을 만한 정보일까요? 판단하고 퀴즈도 풀어 보세요. (장은 계속 흘러가요)</p>
+      ${CARDS.map((c) => `<div class="icard" data-card="${c.id}"><div class="src">${c.src}</div><p>${c.text}</p><div class="seg"><button type="button" data-pick="진짜">⭕ 믿을래요</button><button type="button" data-pick="가짜">❌ 의심돼요</button></div></div>`).join('')}
+      <div class="quiz"><p>🎟️ 퀴즈 쿠폰 · 맞히면 +${fmt(COUPON)}원</p><p style="font-weight:600;margin-top:4px">${QUIZ.q}</p><div class="seg">${QUIZ.choices.map((x) => `<button type="button" data-q="${x}">${x}</button>`).join('')}</div><div class="msg" id="qmsg"></div></div>
+      <div class="actions" style="grid-template-columns:1fr"><button type="button" class="ok" id="done">거래 화면으로</button></div>`, (box) => {
+      box.querySelectorAll('[data-card]').forEach((card) => card.querySelectorAll('[data-pick]').forEach((b) => b.addEventListener('click', () => {
+        S.cardPicks[card.dataset.card] = b.dataset.pick === '진짜' ? '진짜' : '가짜';
+        card.querySelectorAll('[data-pick]').forEach((x) => x.classList.toggle('on', x === b));
+      })));
+      box.querySelectorAll('[data-q]').forEach((b) => b.addEventListener('click', () => {
+        if (S.quizOk !== null) return;
+        S.quizOk = b.dataset.q === QUIZ.answer;
+        b.classList.add(S.quizOk ? 'right' : 'wrong');
+        const m = box.querySelector('#qmsg');
+        if (S.quizOk) { S.cash += COUPON; S.coupon = COUPON; render(); m.textContent = `🎉 정답! ${fmt(COUPON)}원을 받았어요`; m.className = 'msg good'; }
+        else { m.textContent = '아쉬워요! 나누어 투자하면 한 회사가 떨어져도 덜 흔들려요'; m.className = 'msg bad'; }
+      }));
+      box.querySelector('#done').addEventListener('click', () => closeSheet());
+    });
+  }
+
+  // ───── 마감과 성향 ─────
+  function finish() {
+    S.running = false; S.ended = true; closeSheet(); render();
+    setTimeout(showResult, 900);
+  }
+  function profile() {
+    const n = S.trades.length, onNews = S.trades.filter((t) => t.onNews).length;
+    const kinds = new Set(S.trades.filter((t) => t.side === 'buy').map((t) => t.code)).size;
+    if (n === 0) return { icon: '🦉', type: '관찰파 투자자', desc: '이번엔 지켜보기만 했어요. 시장을 먼저 읽는 것도 투자의 시작이에요.', tip: '다음엔 속보 하나를 골라 작게라도 직접 사고팔아 보세요.' };
+    if (n >= 9) return { icon: '🐇', type: '단타파 투자자', desc: `짧은 시간에 ${n}번이나 거래했어요. 손이 빠르고 결정이 시원시원해요.`, tip: `대신 수수료로 ${fmt(S.fees)}원이 나갔어요. 거래가 많을수록 수수료도 쌓여요.` };
+    if (onNews >= 2 && onNews / n >= 0.4) return { icon: '🐂', type: '근거파 투자자', desc: `속보가 나온 뒤 그 방향으로 움직인 거래가 ${onNews}번! 소식을 근거로 판단했어요.`, tip: '속보가 진짜인지, 이미 주가에 반영됐는지까지 따져 보면 더 단단해져요.' };
+    if (S.maxShare >= 0.6) return { icon: '🎲', type: '모험파 투자자', desc: '한 회사에 자산 대부분을 걸었어요. 맞으면 크게, 틀리면 크게 흔들려요.', tip: '여러 회사에 나누면(분산 투자) 한 번의 나쁜 소식에도 덜 흔들려요.' };
+    if (kinds >= 3) return { icon: '🐿️', type: '분산파 투자자', desc: `${kinds}개 회사에 나누어 담았어요. 한 곳이 흔들려도 버틸 수 있는 전략이에요.`, tip: '나눈 회사들이 서로 다른 업종인지도 살펴보면 더 좋아요.' };
+    return { icon: '🐢', type: '신중파 투자자', desc: `거래 ${n}번으로 꼭 필요할 때만 움직였어요. 차분하고 신중한 스타일이에요.`, tip: '좋은 근거가 보이면 조금 더 과감해져도 괜찮아요.' };
+  }
+  function showResult() {
+    const total = totalAsset(), r = (total / START_CASH - 1) * 100, p = profile();
+    $('game').hidden = true; $('result').hidden = false; window.scrollTo(0, 0);
+    $('rIcon').textContent = p.icon; $('rType').textContent = p.type; $('rDesc').textContent = p.desc;
+    $('rRet').textContent = pct(r); $('rRet').style.color = r > 0 ? '#ff8787' : r < 0 ? '#74c0fc' : '#fff';
+    const cardOk = CARDS.filter((c) => S.cardPicks[c.id] === c.truth).length, cardN = Object.keys(S.cardPicks).length;
+    $('rStats').innerHTML = [
+      ['총자산', fmt(total) + '원'], ['거래 횟수', S.trades.length + '번'], ['낸 수수료', fmt(S.fees) + '원'],
+      ['퀴즈 쿠폰', S.quizOk ? '+' + fmt(COUPON) + '원' : S.quizOk === false ? '아쉬워요' : '안 풀었어요'],
+      ['정보 카드 판단', cardN ? `${cardOk} / ${CARDS.length} 맞힘` : '판단 안 함'], ['창구 이용', S.counterUsed ? '했어요 🏦' : '안 했어요'],
+    ].map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join('');
+    $('rTips').innerHTML = `<div>💡 ${p.tip}</div>` + CARDS.map((c) => `<div>🃏 ${c.src}: <b>${c.truth}</b> · ${c.why}</div>`).join('') +
+      `<div>⛔ 거래 정지는 왜? 실제 수업 3라운드처럼, 증권사가 주문을 대신 처리하는 과정을 겪어 보게 하려는 장치예요.</div>`;
+    confetti();
+  }
+  function confetti() {
+    const cols = ['#ffd43b', '#ff6b6b', '#4dabf7', '#51cf66', '#cc5de8'];
+    for (let i = 0; i < 60; i++) { const d = document.createElement('div'); d.className = 'conf'; d.style.left = Math.random() * 100 + 'vw'; d.style.background = cols[i % cols.length]; d.style.animationDuration = 2 + Math.random() * 2 + 's'; d.style.animationDelay = Math.random() * .6 + 's'; $('layer').appendChild(d); setTimeout(() => d.remove(), 4800); }
+  }
+
+  // ───── 시작·다시 하기·화면 전환 ─────
+  function start() {
+    if (!S.name) S.name = $('nameText').textContent;
+    $('meName').textContent = '🧑 ' + S.name;
+    $('intro').hidden = true; $('game').hidden = false; window.scrollTo(0, 0);
+    $('newsbar').classList.add('empty'); $('newsText').textContent = '곧 첫 속보가 나와요. 회사 카드를 눌러 사고팔 수 있어요.';
+    $('log').innerHTML = '<div>아직 거래가 없어요</div>';
+    lastCount = 0; buildCos(); render();
+    try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); ac.resume(); } catch (_) {}
+    S.running = true; S.lastReal = performance.now(); requestAnimationFrame(loop);
+  }
+  $('startBtn').addEventListener('click', start);
+  $('again').addEventListener('click', showIntro);
+  $('goCounter').addEventListener('click', openCounter);
+  // 다른 앱으로 나갔다 오면 그동안 시간은 멈춰 있어요
+  document.addEventListener('visibilitychange', () => {
+    if (!S || S.ended || $('game').hidden) return;
+    if (document.hidden) S.running = false;
+    else if (!S.running) { S.running = true; S.lastReal = performance.now(); requestAnimationFrame(loop); }
+  });
+  showIntro();
+})();
+</script>
+</body>
+</html>
